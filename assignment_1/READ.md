@@ -1,7 +1,7 @@
 # Assignment 1: Linguistic Analysis with spaCy
 
 ## Description of the assignment
-This project uses spaCy to extract linguistic features from The Uppsala Student English Corpus (USE) in the data folder, including the relative frequency of nouns, verbs, adjectives, and adverbs per 10.000 words and the total number of unique PER, LOC, and ORG entities for each text. Lastly, the extracted information is transformed into a data frame using pandas and saved as a CSV file in the out folder. 
+This project uses spaCy to extract linguistic features from The Uppsala Student English Corpus (USE) in the in folder, including the relative frequency of nouns, verbs, adjectives, and adverbs per 10.000 words and the total number of unique PER, LOC, and ORG entities for each text. Lastly, the extracted information is transformed into a data frame using pandas and saved as a CSV file in the out folder. 
 
 ## Installation
 
