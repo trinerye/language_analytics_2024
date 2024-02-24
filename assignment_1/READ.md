@@ -33,7 +33,8 @@ The main function takes two parameters - the in_folderpath and the out_folderpat
 
 ```sh
 def main(in_folderpath, out_folderpath):
-
+# code
 if __name__ == "__main__":
+
  main("../in", "../out")
 ```
