@@ -46,7 +46,7 @@ def saving_report(classifier_metrics, classifier, vectorizer, out_path, model_pa
 def main():
     # Filepath for each used file or saved file
     data_path = os.path.join("..", "data","fake_or_real_news.csv")
-    model_path = os.path.join("..", "models", "neural_network", "regression_classifier.joblib")
+    model_path = os.path.join("..", "models", "neural_network", "neural_network_classifier.joblib")
     vectorizer_path = os.path.join("..","models", "neural_network", "tfidf_vectorizer.joblib")
     out_path = os.path.join("..","out", "neural_network", "classification_report.txt")
     # Calling all functions, saving them as variables 
