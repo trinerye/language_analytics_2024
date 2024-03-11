@@ -10,9 +10,21 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 # Pipeline stuff for saving the models
 import joblib
+
+import argparse
 # %%
+def file_loader():
+    parser = argparse.ArgumentParser(description="Loading data")
+    parser.add_argument("--input",
+                        "-i",
+                        required = True)
+    
+    args = parser.parse_args()
+    return args
+
 # This function loads the data from the data folder and returns it as a data frame
 def load_data(data_path):
+    print(f"running function: load_data on {data_path}")
     return pd.read_csv(data_path) 
 
 # This function splits the dataset into training and testing sets with 20% of the data reserved for testing. A fixed random state is added for reproducibility.
@@ -44,11 +56,20 @@ def saving_report(classifier_metrics, classifier, vectorizer, out_path, model_pa
     joblib.dump(vectorizer, vectorizer_path)
 
 def main():
+    # Creates a folder path for each folder
+    out_folder_path = os.path.join("..", "out", "logistic_regression")
+    models_folder_path = os.path.join("..","models", "logistic_regression")
+
+    # Creates a folder for each path
+    os.makedirs(models_folder_path )
+    os.makedirs(out_folder_path)
+
     # Filepath for each used file or saved file
-    data_path = os.path.join("..", "data","fake_or_real_news.csv")
+    data_path = os.path.join(file_loader().input)
     model_path = os.path.join("..", "models", "logistic_regression", "regression_classifier.joblib")
     vectorizer_path = os.path.join("..","models", "logistic_regression", "tfidf_vectorizer.joblib")
     out_path = os.path.join("..","out", "logistic_regression", "classification_report.txt")
+  
     # Calling all functions, saving them as variables 
     data = load_data(data_path)
     X_train, X_test, y_train, y_test = split_data(data)
@@ -60,4 +81,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# %%
+# ../data/fake_or_real_news.csv
