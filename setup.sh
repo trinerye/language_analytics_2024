@@ -4,7 +4,6 @@ python -m venv env
 source ./env/bin/activate
 #install requirements
 pip install --upgrade pip
-# rune the code
 pip install -r requirements.txt
 # close the enviroments
 deactivate
