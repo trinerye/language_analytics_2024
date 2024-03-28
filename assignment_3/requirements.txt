@@ -1,4 +1,4 @@
 gensim
 pandas
-matplotlib
-scikit-learn
+spacy
+

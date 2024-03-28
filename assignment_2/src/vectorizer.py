@@ -4,16 +4,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 import argparse
 
-def file_loader():
+def parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input",
                         "-i",
                         required = True)
     return parser.parse_args()
 
-def load_data(data_path):
+def load_data():
+    args = parser()
     print("Loading the data")
-    data = pd.read_csv(data_path) 
+    data = pd.read_csv(args.input) 
     # The first to parameters are X and y and a fixed random state is added for reproducibility.
     return train_test_split(data["text"], data["label"], test_size=0.2, random_state=42) 
 

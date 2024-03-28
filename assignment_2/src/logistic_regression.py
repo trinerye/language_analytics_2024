@@ -2,7 +2,7 @@ import os
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 import joblib
-from vectorizer import file_loader, load_data, vectorize_data
+from vectorizer import parser, load_data, vectorize_data
   
 # This function trains the logistic regression classifier on the transformed training data and its corresponding labels.
 def train_model(X_train_feats, y_train):
@@ -27,13 +27,13 @@ def main():
     os.makedirs(os.path.join("models", "logistic_regression"), exist_ok=True)
 
     # Filepath for each used file or saved file
-    data_path = os.path.join(file_loader().input)
-    model_path = os.path.join("models", "logistic_regression", "regression_classifier.joblib")
+
+    classifier_path = os.path.join("models", "logistic_regression", "regression_classifier.joblib")
     vectorizer_path = os.path.join("models", "logistic_regression", "tfidf_vectorizer.joblib")
     out_path = os.path.join("out", "logistic_regression", "classification_report.txt")
   
     # Calling all functions, saving them as variables 
-    X_train, X_test, y_train, y_test = load_data(data_path)
+    X_train, X_test, y_train, y_test = load_data()
     vectorizer, X_train_feats, X_test_feats = vectorize_data(X_train, X_test)
     classifier = train_model(X_train_feats, y_train)
     classifier_metrics = evaluate_model(classifier, X_test_feats, y_test)
@@ -41,8 +41,9 @@ def main():
     
     # Saving the logistic regression classifier and the vectorizer
     print("Saving the classifier and the vectorizer")
+    joblib.dump(classifier, classifier_path)
     joblib.dump(vectorizer, vectorizer_path) 
-    joblib.dump(classifier, model_path)
+  
 
 if __name__ == "__main__":
     main()

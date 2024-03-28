@@ -28,7 +28,7 @@ def extract_text_entities(doc):
     df = pd.DataFrame(annotations, columns=["text", "pos"])
 
     # Filtrates the df using a boolean vector (the boolean vector is created from a conditional statement, 
-    # checking if each element in pos is part of the list ["NOUN", "VERB", "ADJ", "ADV"])
+    # checking if each element in the pos column is part of the list ["NOUN", "VERB", "ADJ", "ADV"])
     df_keep = df[df['pos'].isin(["NOUN", "VERB", "ADJ", "ADV"])] 
 
     # Groups the elements in pos and counts the size of each group

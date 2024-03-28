@@ -7,8 +7,8 @@ python -m venv A3_env
 source ./A3_env/bin/activate
 ## install requirements
 pip install --upgrade pip
-## run the code
 pip install -r requirements.txt
+python -m spacy download en_core_web_md
 ## deactivate env
 deactivate 
 
