@@ -17,28 +17,32 @@ def parser():
 
     return parser.parse_args()
 
+# This function loads the word embedding model and the en_core_web_md model from spacy
 def load_models():
     print("Loading models") 
     model = api.load("glove-wiki-gigaword-50")
     nlp = spacy.load("en_core_web_md")
     return model, nlp
 
+# This function reads the data from the spotify_million_song_dataset_exported.csv
 def load_data(in_folderpath):
     print("Loading the data")
     return pd.read_csv(os.path.join(in_folderpath, "spotify_million_song_dataset_exported.csv")) 
 
+# This function filters the dataframe by the artist column, only including rows where the name of the artist matches the argparse argument 
 def filtered_by_artist(df, args):
     return df[df['artist'].str.lower() == args.artist.lower()]
 
-
+# This function finds the 10 (default) most similar words to the argparse 'word' argument without their similarity score 
 def find_similar_words(model, args):
 
     print(f"Searching for similar words to '{args.word.lower()}'")
-
+    # The 'most_similar' method returns a list of tuples (a word + similarity score)
     similar_words_list = model.most_similar(args.word.lower())
 
     similar_words = []
 
+# Iterates over the list of tuples in the similar_words_list, appending only the first element (the word) from each tuple to a new list, similar_words"
     for word in similar_words_list:
 
         similar_words.append(word[0])
@@ -46,26 +50,29 @@ def find_similar_words(model, args):
     return similar_words
 
 
+# This function return a number of songs by a given artist which contains any of the words from the similar_words list
 def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nlp):
     
     print(f"Finding songs that contains words similar to '{args.word.lower()}'")
 
     songs = []
 
+    # For each row in the filtered_by_artist_df
     for i, row in filtered_by_artist_df.iterrows():
 
+        # tokinize the text in the dataframe 'text' column
         doc = nlp(row['text'])
 
-        # Creates an empty list for the tokens
         tokens = []
 
+        # For each token in doc (the text in the 'text' column)
         for token in doc:
             # If the token is not punctuation then...
             if not token.is_punct:
                 # convert the tokenized text to lowercase and add it to the tokens list
                 tokens.append(token.text.lower())
 
-        # Check if  words from the  is in the tokens list after processing all tokens
+        # Checks if words from the similar_words list is in the tokens list after processing all tokens
         if any(word in similar_words for word in tokens):
             # Append the song to the corresponding list if a word from the extended query is found within the tokenized text
             songs.append(row['song'])
