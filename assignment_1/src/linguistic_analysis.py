@@ -68,19 +68,19 @@ def extract_text_entities(doc):
     return noun, verb, adj, adv, len(person), len(loc), len(org)
 
 # Function that process each file in the different directories 
-def process_files(directory, nlp): 
+def process_files(directory, nlp, in_folderpath, out_folderpath): 
 
     # Creating an empty dataframe for the final results
     final_results = pd.DataFrame(columns=["Filename","NOUN", "VERB", "ADJ", "ADV", "PERSON", "LOC", "ORG"])
     
     # Creates a sorted list of all the filenames within each directory in the in-folder 
-    filenames = sorted(os.listdir(os.path.join("in", directory)))
+    filenames = sorted(os.listdir(os.path.join(in_folderpath, directory)))
     
     # Iterates over each file in the sorted filenames list.
     for file in filenames:
 
         # Constructs the file path for each text file
-        filepath = os.path.join("in", directory, file)
+        filepath = os.path.join(in_folderpath, directory, file)
 
         # Calls the open_and_clean_text(filenames) function 
         cleaned_text = open_and_clean_text(filepath)
@@ -101,22 +101,28 @@ def process_files(directory, nlp):
         final_results = pd.concat([final_results, df_results])
     
     # Saves the final results dataframe as a csv file in the out folder
-    final_results.to_csv(f"{os.path.join('out', directory)}.table.csv", index=False)
+    final_results.to_csv(f"{os.path.join(out_folderpath, directory)}.table.csv", index=False)
 
 def main():
 
+    # Creates 'in' folderpath
+    in_folderpath = os.path.join("in")
+
+    # Creates 'out' folderpath
+    out_folderpath = os.path.join("out")
+
     # If the directory does not exist, make the directory
-    os.makedirs(os.path.join("out"), exist_ok=True)
+    os.makedirs(os.path.join(out_folderpath), exist_ok=True)
 
     # Creates a sorted list of all the directories within the given folder path
-    dirs = sorted(os.listdir("in"))
+    dirs = sorted(os.listdir(in_folderpath))
 
     # Loads the en_core_web_md model from spacy
     nlp = spacy.load("en_core_web_md")
 
     # Iterates over each directory in the sorted list 'dirs' and process each file
     for directory in dirs:
-        process_files(directory, nlp)
+        process_files(directory, nlp, in_folderpath, out_folderpath)
         
 if __name__ == "__main__":
     main()

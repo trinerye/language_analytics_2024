@@ -8,3 +8,5 @@ pip install -r requirements.txt
 # close the enviroments
 deactivate
 
+
+

@@ -1,2 +1,2 @@
-pandas
-spacy
+pandas==2.2.1
+spacy==3.7.4

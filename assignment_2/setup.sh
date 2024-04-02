@@ -1,15 +1,15 @@
 
-# Run setup from assignment 2 folder 
+# Run setup from assignment_2 folder 
 
-## create virtual env
-python -m venv A2_env
-## activate env
-source ./A2_env/bin/activate
-## install requirements
+## Create virtual environment
+python -m venv LA_A2_env
+## Activate the environment
+source ./LA_A2_env/bin/activate
+## Install requirements
 pip install --upgrade pip
-## run the code
+## Run the code
 pip install -r requirements.txt
-## deactivate env
+## Deactivate the environment
 deactivate 
 
 
