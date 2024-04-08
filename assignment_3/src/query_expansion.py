@@ -59,7 +59,7 @@ def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nl
 
     songs = []
 
-    # For each row in the filtered_by_artist_df
+    # Iterates over each row in the filtered_by_artist_df by index
     for i, row in filtered_by_artist_df.iterrows():
 
         # tokinize the text in the dataframe 'text' column
@@ -71,10 +71,9 @@ def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nl
         for token in doc:
             # If the token is not punctuation or a new line (\n) then...
             if not token.is_punct and "\n" not in token.text:
-                # convert the tokenized text to lowercase and add it to the tokens list
 
+                # Convert the tokenized text to lowercase, remove apostrophes and add it to the tokens list
                 cleaned_token = token.text.lower().replace("'", "")
-
                 tokens.append(cleaned_token)
 
         # Checks if words from the similar_words list is in the tokens list after processing all tokens
