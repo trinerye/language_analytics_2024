@@ -1,6 +1,6 @@
 
 # activate env
-source ./env/bin/activate
+source ./main_env/bin/activate
 # rune the code
 python src/test.py
 # close the enviroments

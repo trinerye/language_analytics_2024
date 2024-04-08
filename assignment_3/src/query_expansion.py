@@ -47,6 +47,8 @@ def find_similar_words(model, args):
 
         similar_words.append(word[0])
     
+    print(similar_words)
+
     return similar_words
 
 
@@ -67,15 +69,20 @@ def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nl
 
         # For each token in doc (the text in the 'text' column)
         for token in doc:
-            # If the token is not punctuation then...
-            if not token.is_punct:
+            # If the token is not punctuation or a new line (\n) then...
+            if not token.is_punct and "\n" not in token.text:
                 # convert the tokenized text to lowercase and add it to the tokens list
-                tokens.append(token.text.lower())
+
+                cleaned_token = token.text.lower().replace("'", "")
+
+                tokens.append(cleaned_token)
 
         # Checks if words from the similar_words list is in the tokens list after processing all tokens
         if any(word in similar_words for word in tokens):
             # Append the song to the corresponding list if a word from the extended query is found within the tokenized text
             songs.append(row['song'])
+    
+    print(tokens)
     
     return songs
 

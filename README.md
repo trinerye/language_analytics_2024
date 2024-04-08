@@ -1,8 +1,7 @@
-# language_analytics_2024
-A test repo for coursework for CDS-language analytics
+# Language_analytics_2024
 
-This is my first addition to my readme file
+### Assignment 1: 
 
-Add, commit, push
+### Assignment 2: 
 
-New change by me
+### Assignment 3: 
