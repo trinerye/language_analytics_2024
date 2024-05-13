@@ -64,6 +64,8 @@ def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nl
 
         # tokinize the text in the dataframe 'text' column
         doc = nlp(row['text'])
+        
+        print(type(doc))
 
         tokens = []
 
@@ -81,7 +83,7 @@ def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nl
             # Append the song to the corresponding list if a word from the extended query is found within the tokenized text
             songs.append(row['song'])
     
-    print(tokens)
+    # print(tokens)
     
     return songs
 
