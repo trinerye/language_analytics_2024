@@ -2,59 +2,56 @@ import os
 import spacy
 import pandas as pd
 import re
+from codecarbon import EmissionsTracker
+from tqdm import tqdm
 
-# Function that open and cleans the text files
+def load_model():
+
+    # Loads the en_core_web_md model from spacy
+    nlp = spacy.load("en_core_web_md")
+    return nlp
+
+
 def open_and_clean_text(filepath):
 
-    # Opens the files using a latin1 encoding which contains 191 characters from the latin script, including Finnish letters    
+    # Opens and reads the text using a latin1 encoding which contains 191 characters from the latin script, including Finnish letters    
     with open(filepath, encoding='latin1') as f:
         text = f.read()
 
-        # The re.sub function finds matching occurrences of a specified pattern and replaces it with an empty string
-        # r'\<[^>]*\>' is a regular expression which removes everything between the tags including empty tags     
+        # Uses the re.sub function to remove occurrences which matches the regular expression, specifically everything between the tags including empty tags.   
         cleaned_text = re.sub(r'\<[^>]*\>', "", text)
-
     return cleaned_text
 
-# Function that extracts the noun, verbs, adjectives, adverbs and the three unique entities person, loc, and org
 def extract_text_entities(doc):
 
-    # Iterates over each token in doc, appending the text and pos tags to the annotations list
-    annotations = []
-    for token in doc: 
-        annotations.append([token.text, token.pos_])
+    # Iterates over each token in doc, appending the pos tags to a list
+    annotations = [(token.pos_) for token in doc if not token.is_punct]
 
     # Converting the annotations list into a data frame
-    df = pd.DataFrame(annotations, columns=["text", "pos"])
+    df = pd.DataFrame(annotations, columns=["pos"])
 
-    # Filtrates the df using a boolean vector (the boolean vector is created from a conditional statement, 
-    # checking if each element in the pos column is part of the list ["NOUN", "VERB", "ADJ", "ADV"])
-    df_keep = df[df['pos'].isin(["NOUN", "VERB", "ADJ", "ADV"])] 
+    # Returns a dataframe with only the nouns, verbs, adj, and adv if they are present in the pos column, making the boolean vector true.
+    df_filtered = df[df['pos'].isin(["NOUN", "VERB", "ADJ", "ADV"])] 
 
     # Groups the elements in pos and counts the size of each group
-    pos_count = df_keep.groupby("pos").count()
+    df_pos_count = df_filtered.groupby("pos").size()
 
-     # The same as before but this time, the "-" inverts the boolean vector removing the elements 
-    # from pos which is found in the list ["SPACE", "SYM", "PUNCT", "NUM"]
-    df_removed = df[-df['pos'].isin(["SPACE", "SYM", "PUNCT", "NUM"])] 
+    # Calculates the length of the dataframe as it represents the total amount of words in the text
+    total_words = len(df)
 
-    # Calculates the normalization factor of df_removed divided by 10000
-    total_words = len(df_removed)/10000 
+    # Calculates the frequency of nouns, verbs, adjectives, and adverbs per 10,000 words
+    noun = round((df_pos_count["NOUN"]/total_words) * 10000, 2)
+    verb = round((df_pos_count["VERB"]/total_words) * 10000, 2)
+    adj = round((df_pos_count["ADJ"]/total_words) * 10000, 2)
+    adv = round((df_pos_count["ADV"]/total_words) * 10000, 2)
 
-    # Calculates the frequency of nouns, verbs, adjectives, and adverbs and rounds the number to a whole number 
-    # Each pos frequency is normalized against the total word count for comparison
-    noun = round(pos_count["text"]["NOUN"]/total_words)
-    verb = round(pos_count["text"]["VERB"]/total_words)
-    adj = round(pos_count["text"]["ADJ"]/total_words)
-    adv = round(pos_count["text"]["ADV"]/total_words)
-
-    # Creates an empthy set for each unique entities (set can only hold unique values)
+    # Creates an empthy set for each unique entity
     person, loc, org = set(), set(), set()
 
-    # Iterates over each entity in doc, using a conditional statement to filter the entities, 
-    # then adding each entity to the sets (person, loc, org) based on their labels
+    # Iterates over each entity in doc.ents, which is a tuple containing the document entities 
     for entity in doc.ents:
 
+        # Checks whether the label is a PERSON, LOC, or ORG, converts it to a string, and adds it to the corresponding set.
         if entity.label_ == "PERSON":
             person.add(str(entity))
 
@@ -67,63 +64,72 @@ def extract_text_entities(doc):
     # Returns an int for each pos and unique entity 
     return noun, verb, adj, adv, len(person), len(loc), len(org)
 
-# Function that process each file in the different directories 
 def process_files(directory, nlp, in_folderpath, out_folderpath): 
 
-    # Creating an empty dataframe for the final results
-    final_results = pd.DataFrame(columns=["Filename","NOUN", "VERB", "ADJ", "ADV", "PERSON", "LOC", "ORG"])
+    # Empty list of dictionaries 
+    results = []
     
-    # Creates a sorted list of all the filenames within each directory in the in-folder 
+    # Creates a sorted list of all the filenames within each directory in the in directory 
     filenames = sorted(os.listdir(os.path.join(in_folderpath, directory)))
-    
-    # Iterates over each file in the sorted filenames list.
-    for file in filenames:
 
-        # Constructs the file path for each text file
+    # Iterates over each file in the list of filenames.
+    for file in tqdm(filenames):
+
+        # Constructs the filepath for each text file
         filepath = os.path.join(in_folderpath, directory, file)
 
-        # Calls the open_and_clean_text(filenames) function 
+        # Calls the function which opens and cleans the text files 
         cleaned_text = open_and_clean_text(filepath)
         
-        # Processes the cleaned text using the nlp model (en_core_web_md)
+        # Processes the cleaned text using the nlp model 
         doc = nlp(cleaned_text)
 
-        # Calls the extract_text_entities(doc) fucntion
+        # Calls the function that extracts text entities from the document
         noun, verb, adj, adv, person, loc, org = extract_text_entities(doc)
 
-        # Creates a list containing the results 
-        results = [file, noun, verb, adj, adv, person, loc, org]
-
-        # Turns the results list into a dataframe using the columns from the final_results dataframe
-        df_results = pd.DataFrame([results], columns=final_results.columns)
+        # Adds the extracted information to a dictionary and appends it to a list
+        results.append({"Filename": file, "NOUN": noun,"VERB": verb, "ADJ": adj, "ADV": adv, "PERSON": person, "LOC": loc, "ORG": org})
         
-        # Appends the results dataframe to the final_results dataframe
-        final_results = pd.concat([final_results, df_results])
-    
-    # Saves the final results dataframe as a csv file in the out folder
-    final_results.to_csv(f"{os.path.join(out_folderpath, directory)}.table.csv", index=False)
+        # Turns the list of dictionaries into a dataframe
+        df_results = pd.DataFrame(results)
+
+    # Saves the results as a csv file in the out directory 
+    df_results.to_csv(f"{os.path.join(out_folderpath, directory)}.table.csv", index=False)
+
+def process_directories(in_folderpath, nlp, out_folderpath):
+
+    # Creates a sorted list of all the directories within the in directory
+    dirs = sorted(os.listdir(in_folderpath))
+
+    # Iterates over each directory in the list of directories and process each file within in
+    for directory in dirs:
+        process_files(directory, nlp, in_folderpath, out_folderpath)
 
 def main():
 
-    # Creates 'in' folderpath
-    in_folderpath = os.path.join("in")
+    # Creates a folderpath for the CO2 emissions and makes the directory if it does not exsist
+    emissions_folderpath = os.path.join("emissions")
+    os.makedirs(emissions_folderpath, exist_ok=True)
 
-    # Creates 'out' folderpath
-    out_folderpath = os.path.join("out")
+    # Initializes the emissions tracker by codecarbon
+    with EmissionsTracker(project_name="linguistic_analysis",
+                          output_dir=emissions_folderpath) as tracker:
 
-    # If the directory does not exist, make the directory
-    os.makedirs(os.path.join(out_folderpath), exist_ok=True)
+        # Creates a filepath for each directory and makes the out directory if does not exist
+        in_folderpath = os.path.join("in")
+        out_folderpath = os.path.join("out")
+        os.makedirs(os.path.join(out_folderpath), exist_ok=True)
 
-    # Creates a sorted list of all the directories within the given folder path
-    dirs = sorted(os.listdir(in_folderpath))
+        # Tracks loading the model
+        tracker.start_task("load_spacy_model")
+        nlp = load_model()
+        tracker.stop_task()
 
-    # Loads the en_core_web_md model from spacy
-    nlp = spacy.load("en_core_web_md")
+        # Tracks the spacy analysis 
+        tracker.start_task("perform_spacy_analysis")
+        process_directories(in_folderpath, nlp, out_folderpath)
+        tracker.stop_task()
 
-    # Iterates over each directory in the sorted list 'dirs' and process each file
-    for directory in dirs:
-        process_files(directory, nlp, in_folderpath, out_folderpath)
-        
 if __name__ == "__main__":
     main()
   
