@@ -13,14 +13,9 @@ The ``src`` directory contains one script:
 
 Download the [The Uppsala Student English Corpus (USE)]( https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2457) from the Oxford Text Archive. You should download the USEcorpus.zip file, unzip it and place the ``USEcorpus`` folder in the in directory. 
 
-This project opens the files using the ``latin-1 encoding`` as the dataset contains Finnish letters.
-
 ### Model
 
 This project uses the English [en_core_web_md](https://spacy.io/models/en) pipeline from spaCy, optimized for CPUs, to tokenize the USE dataset and perform part-of-speech (POS) tagging and named entity recognition (NER) on it. 
-
-Go to https://spacy.io/models to find the spaCy pipeline you want to work with and add it as a command-line argument when running the script. However, remember to change the encoding accordingly to ensure the text is readable. See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings)
-
 
 ##  File Structure
 
@@ -105,6 +100,12 @@ This project supports the following command-line options to customize the script
 |----------|---------|---------------------------------------------------------------------------|-----|--------|
 |--pipeline|-p       |Specifies the spaCy pipeline used for the linguistic analysis              |str  |TRUE    |
 |--encoding|-e       |Specifies which encoding to use to open the texts from the dataset|str  |TRUE    |
+
+Go to https://spacy.io/models to change the spaCy pipeline you want to work with and add it as a command-line argument when running the script. Remember to change the encoding accordingly to ensure the text is readable. 
+
+*See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings)*. 
+
+This project uses the ``latin-1 encoding`` as the dataset contains Finnish letters.
 
 ## Results 
 
