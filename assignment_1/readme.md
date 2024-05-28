@@ -6,7 +6,7 @@ This project uses ``spaCy`` to extract linguistic features from ``The Uppsala St
 
 The ``src`` directory contains one script: 
 
-- **linguistic_analysis:** Uses the ``en_core_web_md`` pipeline from spaCy to extract linguistic features from the dataset and saves the results as a csv file in the ``out`` directory 
+- **linguistic_analysis:** Uses the ``en_core_web_md`` pipeline from spaCy to extract linguistic features from the dataset and saves the results as a csv file in the ``out`` directory.
 
 
 ### Data
@@ -101,7 +101,7 @@ This project supports the following command-line options to customize the script
 |--pipeline|-p       |Specifies the spaCy pipeline used for the linguistic analysis              |str  |TRUE    |
 |--encoding|-e       |Specifies which encoding to use to open the texts from the dataset|str  |TRUE    |
 
-Go to https://spacy.io/models to change the spaCy pipeline you want to work with and add it as a command-line argument when running the script. Remember to change the encoding accordingly to ensure the text is readable. 
+Go to https://spacy.io/models to find the spaCy pipeline you want to work with and add it as a command-line argument when running the script. Remember to change the encoding accordingly to ensure the text is readable. 
 
 *See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings)*. 
 
