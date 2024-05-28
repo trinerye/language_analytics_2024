@@ -1,5 +1,7 @@
 # Assignment 3: Query expansion with word embeddings
 
+Remember to write that you need to use the scipy == 1.11 version 
+
 ## Description of the assignment
 
 write description here

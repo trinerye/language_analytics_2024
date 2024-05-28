@@ -4,122 +4,137 @@ import pandas as pd
 import argparse
 import spacy
 import gensim.downloader as api
+from tqdm import tqdm
+
 
 def parser():
+
+  # Creates an argparse object 
     parser = argparse.ArgumentParser()
+
+    # Defines the CLI argument that specifies the word used for the query exspansion 
     parser.add_argument("--word",
                         "-w",
-                        required = True)
-
+                        type=str,
+                        required=True,
+                        help="Specify the word you want to use for the query exspansion")
+    
+    # Defines the CLI argument that specifies the encoding used to open the text 
     parser.add_argument("--artist",
                         "-a",
-                        required = True)
+                        type=str,
+                        required=True,
+                        help="Specify the artist you want to search for")
 
-    return parser.parse_args()
+    return parser.parse_args()  # Parses and returns the CLI arguments
 
-# This function loads the word embedding model and the en_core_web_md model from spacy
+
 def load_models():
+
     print("Loading models") 
+
+    # Loads the the genism word embedding model
     model = api.load("glove-wiki-gigaword-50")
+
+    # Loads the spaCy pipeline
     nlp = spacy.load("en_core_web_md")
+
     return model, nlp
 
-# This function reads the data from the spotify_million_song_dataset_exported.csv
+
 def load_data(in_folderpath):
+
     print("Loading the data")
-    return pd.read_csv(os.path.join(in_folderpath, "spotify_million_song_dataset_exported.csv")) 
 
-# This function filters the dataframe by the artist column, only including rows where the name of the artist matches the argparse argument 
-def filtered_by_artist(df, args):
-    return df[df['artist'].str.lower() == args.artist.lower()]
+    # Loads the spotify dataset
+    df =  pd.read_csv(os.path.join(in_folderpath, "spotify_million_song_dataset_exported.csv")) 
 
-# This function finds the 10 (default) most similar words to the argparse 'word' argument without their similarity score 
-def find_similar_words(model, args):
+    return df
 
-    print(f"Searching for similar words to '{args.word.lower()}'")
-    # The 'most_similar' method returns a list of tuples (a word + similarity score)
-    similar_words_list = model.most_similar(args.word.lower())
 
-    similar_words = []
+def filter_by_artist(df, args):
 
-# Iterates over the list of tuples in the similar_words_list, appending only the first element (the word) from each tuple to a new list, similar_words"
-    for word in similar_words_list:
+    print(f"Finding songs by {args.artist}")
 
-        similar_words.append(word[0])
+    # Filters the dataframe by artist if the name of the artist matches the argparse argument 
+    df_filtered = df[df['artist'].str.lower() == args.artist.lower()]
+
+    return df_filtered
+
+
+def query_expansion(model, args):
+
+    print(f"Finding words similar to '{args.word.lower()}'")
+
+    # Returns a list of tuples containing the ten most similar words and their similarity scores
+    similar_words = model.most_similar(args.word.lower()) 
+
+    # Iterates over the list of tuples, taking only the word and appending it to a new list
+    words = [index[0] for index in similar_words]
+
+    return words
+
+
+def find_songs(words, args, df_filtered, nlp):
     
-    print(similar_words)
-
-    return similar_words
-
-
-# This function return a number of songs by a given artist which contains any of the words from the similar_words list
-def find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nlp):
-    
-    print(f"Finding songs that contains words similar to '{args.word.lower()}'")
+    print(f"Finding songs by {args.artist} that contains words similar to '{args.word.lower()}'")
 
     songs = []
 
-    # Iterates over each row in the filtered_by_artist_df by index
-    for i, row in filtered_by_artist_df.iterrows():
+    # Iterates over each row in the dataframe using the index to do so.
+    for i, row in df_filtered.iterrows():
 
-        # tokinize the text in the dataframe 'text' column
+        # Tokinizes the text in the 'text' column
         doc = nlp(row['text'])
         
-        print(type(doc))
+        # Converts every token in the document to lowercase, replaces the apostrophes with an empty string and removes punctuation and new lines.
+        tokens = [token.text.lower().replace("'", "") for token in doc if not token.is_punct and "\n" not in token.text]
 
-        tokens = []
+        # Checks if any word from the words list is in the tokens list
+        if any(word in words for word in tokens):
 
-        # For each token in doc (the text in the 'text' column)
-        for token in doc:
-            # If the token is not punctuation or a new line (\n) then...
-            if not token.is_punct and "\n" not in token.text:
-
-                # Convert the tokenized text to lowercase, remove apostrophes and add it to the tokens list
-                cleaned_token = token.text.lower().replace("'", "")
-                tokens.append(cleaned_token)
-
-        # Checks if words from the similar_words list is in the tokens list after processing all tokens
-        if any(word in similar_words for word in tokens):
-            # Append the song to the corresponding list if a word from the extended query is found within the tokenized text
+            # Appends the song to the corresponding list if a word from the extended query is found within the tokenized text
             songs.append(row['song'])
-    
-    # print(tokens)
     
     return songs
 
-def calculate_and_save_result(songs, filtered_by_artist_df, args, out_folderpath):
 
-    percentage = round(len(songs) / len(filtered_by_artist_df) * 100)
+def save_results(songs, df_filtered, args, out_folderpath):
 
-    print(f"Result: {percentage}% of {args.artist}'s songs contains words similar to the search word '{args.word.lower()}'")
+    # Calculate the percentage of songs from a given artist that contains one of the words from the query expansion 
+    percentage = round(len(songs) / len(df_filtered) * 100, 2)
 
-    result_df = pd.DataFrame(songs, columns=["Song (A-Z)"])
+    print(f"Result: {percentage}% of {args.artist}'s songs contains words similar to '{args.word.lower()}'") ### Make this some cool color
 
-    result_df.to_csv(os.path.join(out_folderpath, f"{args.artist.lower()}_songs_related_to_{args.word.lower()}.csv"))
+    # Creates a new dataframe that only contains the songs where words from the query expansion appear
+    df_results = pd.DataFrame(songs, columns=["Song (A-Z)"])
+
+    # Saves the results as a csv file in the out directory 
+    df_results.to_csv(os.path.join(out_folderpath, f"{args.artist.lower()}_songs_related_to_{args.word.lower()}.csv"))
 
 
 def main():
     
-    args = parser()
-
-    # Creates a filepath for each directory 
+     # Creates a folderpath for each directory and makes the directory if it does not exist
     in_folderpath = os.path.join("in")
     out_folderpath = os.path.join("out")
-
-    # If the directory does not exist, make the directory
     os.makedirs(out_folderpath, exist_ok=True)
+
+
+
+    args = parser()
 
     model, nlp = load_models()
 
     df = load_data(in_folderpath)
 
-    filtered_by_artist_df = filtered_by_artist(df, args)
+    df_filtered = filter_by_artist(df, args)
 
-    similar_words = find_similar_words(model, args)
+    words = query_expansion(model, args)
 
-    songs = find_songs_with_similar_words(similar_words, args, filtered_by_artist_df, nlp)
+    songs = find_songs(words, args, df_filtered, nlp)
 
-    calculate_and_save_result(songs, filtered_by_artist_df, args, out_folderpath)
+    save_results(songs, df_filtered, args, out_folderpath)
   
 if __name__ == "__main__":
     main()
