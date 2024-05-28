@@ -4,6 +4,7 @@ import pandas as pd
 import argparse
 import spacy
 import gensim.downloader as api
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 
@@ -112,6 +113,15 @@ def save_results(songs, df_filtered, args, out_folderpath):
     # Saves the results as a csv file in the out directory 
     df_results.to_csv(os.path.join(out_folderpath, f"{args.artist.lower()}_songs_related_to_{args.word.lower()}.csv"))
 
+    labels = f"songs_that contains_the_word_{args.word.lower()}", 'Other_songs'
+   
+    sizes = [percentage, len(df_filtered)]
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%')
+    plot_folderpath = os.path.join(out_folderpath, "pie.png")
+    plt.savefig(plot_folderpath) 
+    plt.close()
+
 
 def main():
     
@@ -119,8 +129,6 @@ def main():
     in_folderpath = os.path.join("in")
     out_folderpath = os.path.join("out")
     os.makedirs(out_folderpath, exist_ok=True)
-
-
 
     args = parser()
 
@@ -140,3 +148,7 @@ if __name__ == "__main__":
     main()
 
 
+
+### Create a pie chart showing the amount of songs by the args.artist that contains the args.word
+
+###  len(df_filtered) percentage 
