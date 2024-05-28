@@ -1,21 +1,43 @@
 import os
 import spacy
 import pandas as pd
+import argparse
 import re
 from codecarbon import EmissionsTracker
 from tqdm import tqdm
 
-def load_model():
+
+def parser():
+
+    # Creates an argparse object 
+    parser = argparse.ArgumentParser()
+
+    # Defines the CLI argument that specifies the spaCy pipeline 
+    parser.add_argument("--pipeline",
+                        "-p",
+                        type=str,
+                        required=True,
+                        help="Specify the name of spaCy pipeline you want to work with. Go to https://spacy.io/models to read more about spaCy pipelines")
+    
+    # Defines the CLI argument that specifies the encoding used to open the text 
+    parser.add_argument("--encoding",
+                        "-e",
+                        type=str,
+                        required=True,
+                        help="Specify which encoding to use to open the texts from the dataset. Go to https://docs.python.org/3/library/codecs.html#standard-encodings to see the standard encodings for python")
+
+    return parser.parse_args()  # Parses and returns the CLI arguments
+
+def load_model(args):
 
     # Loads the en_core_web_md model from spacy
-    nlp = spacy.load("en_core_web_md")
+    nlp = spacy.load(args.pipeline) # perhaps add argparse here
     return nlp
 
-
-def open_and_clean_text(filepath):
+def open_and_clean_text(filepath, args):
 
     # Opens and reads the text using a latin1 encoding which contains 191 characters from the latin script, including Finnish letters    
-    with open(filepath, encoding='latin1') as f:
+    with open(filepath, encoding=args.encoding) as f:
         text = f.read()
 
         # Uses the re.sub function to remove occurrences which matches the regular expression, specifically everything between the tags including empty tags.   
@@ -25,7 +47,7 @@ def open_and_clean_text(filepath):
 def extract_text_entities(doc):
 
     # Iterates over each token in doc, appending the pos tags to a list
-    annotations = [(token.pos_) for token in doc if not token.is_punct]
+    annotations = [(token.pos_) for token in doc if not token.is_punct and not token.is_space]
 
     # Converting the annotations list into a data frame
     df = pd.DataFrame(annotations, columns=["pos"])
@@ -64,7 +86,7 @@ def extract_text_entities(doc):
     # Returns an int for each pos and unique entity 
     return noun, verb, adj, adv, len(person), len(loc), len(org)
 
-def process_files(directory, nlp, in_folderpath, out_folderpath): 
+def process_files(directory, nlp, args, in_folderpath, out_folderpath): 
 
     # Empty list of dictionaries 
     results = []
@@ -79,7 +101,7 @@ def process_files(directory, nlp, in_folderpath, out_folderpath):
         filepath = os.path.join(in_folderpath, directory, file)
 
         # Calls the function which opens and cleans the text files 
-        cleaned_text = open_and_clean_text(filepath)
+        cleaned_text = open_and_clean_text(filepath, args)
         
         # Processes the cleaned text using the nlp model 
         doc = nlp(cleaned_text)
@@ -94,41 +116,49 @@ def process_files(directory, nlp, in_folderpath, out_folderpath):
         df_results = pd.DataFrame(results)
 
     # Saves the results as a csv file in the out directory 
-    df_results.to_csv(f"{os.path.join(out_folderpath, directory)}.table.csv", index=False)
+    df_results.to_csv(os.path.join(out_folderpath, f"{directory}_linguistic_analysis.csv"), index=False)
 
-def process_directories(in_folderpath, nlp, out_folderpath):
+
+def process_directories(in_folderpath, nlp, args, out_folderpath):
 
     # Creates a sorted list of all the directories within the in directory
     dirs = sorted(os.listdir(in_folderpath))
 
     # Iterates over each directory in the list of directories and process each file within in
     for directory in dirs:
-        process_files(directory, nlp, in_folderpath, out_folderpath)
+        process_files(directory, nlp, args, in_folderpath, out_folderpath)
+    return directory
 
 def main():
 
-    # Creates a folderpath for the CO2 emissions and makes the directory if it does not exsist
+    # Creates a folderpath for each directory and makes the directory if it does not exist
+    in_folderpath = os.path.join("in", "USEcorpus")
+    out_folderpath = os.path.join("out")
     emissions_folderpath = os.path.join("emissions")
+    os.makedirs(os.path.join(out_folderpath), exist_ok=True)
     os.makedirs(emissions_folderpath, exist_ok=True)
 
     # Initializes the emissions tracker by codecarbon
-    with EmissionsTracker(project_name="linguistic_analysis",
-                          output_dir=emissions_folderpath) as tracker:
+    tracker = EmissionsTracker(project_name="linguistic_analysis",
+                               output_file="emissions.csv",
+                               output_dir=emissions_folderpath) 
 
-        # Creates a filepath for each directory and makes the out directory if does not exist
-        in_folderpath = os.path.join("in")
-        out_folderpath = os.path.join("out")
-        os.makedirs(os.path.join(out_folderpath), exist_ok=True)
+    # Tracks the initialization of the argument parser
+    tracker.start_task("Initialize_argparse")
+    args = parser()
+    tracker.stop_task()
 
-        # Tracks loading the model
-        tracker.start_task("load_spacy_model")
-        nlp = load_model()
-        tracker.stop_task()
+    # Tracks the function that loads the model
+    tracker.start_task("load_spacy_model")
+    nlp = load_model(args)
+    tracker.stop_task()
 
-        # Tracks the spacy analysis 
-        tracker.start_task("perform_spacy_analysis")
-        process_directories(in_folderpath, nlp, out_folderpath)
-        tracker.stop_task()
+    # Tracks the function which does the spacy analysis 
+    tracker.start_task("perform_spacy_analysis")
+    directory = process_directories(in_folderpath, nlp, args, out_folderpath)
+    tracker.stop_task()
+    
+    tracker.stop()
 
 if __name__ == "__main__":
     main()
