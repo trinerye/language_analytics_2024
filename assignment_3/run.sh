@@ -1,6 +1,6 @@
 # Activate the environment (Unix/macOS)
-source ./LA_A3_3_env/bin/activate
+source ./LA_A3_env/bin/activate
 # Run the code
-python src/query_expansion.py --word winning  --artist ABBA 
+python src/query_expansion.py -w dreams  -a aerosmith
 # Deactivate the enviroment
 deactivate
