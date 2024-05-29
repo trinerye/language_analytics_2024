@@ -6,7 +6,7 @@ import spacy
 import gensim.downloader as api
 from codecarbon import EmissionsTracker
 import matplotlib.pyplot as plt
-from tqdm import tqdm
+from colorama import Fore
 
 
 def parser():
@@ -45,9 +45,10 @@ def load_models():
 
 
 def load_data(in_folderpath):
+    
+    print("Loading the data")
 
     # Loads the spotify dataset
-    print("Loading the data")
     df =  pd.read_csv(os.path.join(in_folderpath, "Spotify Million Song Dataset_exported.csv")) 
 
     return df
@@ -55,18 +56,19 @@ def load_data(in_folderpath):
 
 def filter_by_artist(df, args):
 
-    # Filters the dataframe by artist if the name of the artist matches the argparse argument 
     print(f"Finding songs by {args.artist}")
-
+    
+    # Filters the dataframe by artist if the name of the artist matches the argparse argument 
     df_filtered = df[df['artist'].str.lower().isin([args.artist.lower()])]
 
     return df_filtered
 
 
 def query_expansion(model, args):
+   
+    print(f"Finding words similar to '{args.word.lower()}'")
 
     # Returns a list of tuples containing the ten most similar words and their similarity scores
-    print(f"Finding words similar to '{args.word.lower()}'")
     similar_words = model.most_similar(args.word.lower()) 
 
     # Iterates over the list of tuples, taking only the word and appending it to a new list
@@ -104,7 +106,8 @@ def save_csv(songs, df_filtered, args, out_folderpath):
     # Calculate the percentage of songs from a given artist that contains one of the words from the query expansion 
     percentage = round(len(songs) / len(df_filtered) * 100, 2)
 
-    print(f"Result: {percentage}% of {args.artist}'s songs contains words similar to '{args.word.lower()}'") ### Make this some cool color
+    # The color code makes the end result green
+    print(f"\033[1;32mResult: {percentage}% of {args.artist}'s songs contains words similar to '{args.word.lower()}'\033[0m") 
 
     # Creates a new dataframe that only contains the songs where words from the query expansion appear
     df_results = pd.DataFrame(songs, columns=["Song (A-Z)"])
