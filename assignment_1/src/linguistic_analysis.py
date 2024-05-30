@@ -28,11 +28,13 @@ def parser():
 
     return parser.parse_args()  # Parses and returns the CLI arguments
 
+
 def load_model(args):
 
     # Loads the en_core_web_md model from spacy
     nlp = spacy.load(args.pipeline) # perhaps add argparse here
     return nlp
+
 
 def open_and_clean_text(filepath, args):
 
@@ -43,6 +45,7 @@ def open_and_clean_text(filepath, args):
         # Uses the re.sub function to remove occurrences which matches the regular expression, specifically everything between the tags including empty tags.   
         cleaned_text = re.sub(r'\<[^>]*\>', "", text)
     return cleaned_text
+
 
 def extract_text_entities(doc):
 
@@ -86,6 +89,7 @@ def extract_text_entities(doc):
     # Returns an int for each pos and unique entity 
     return noun, verb, adj, adv, len(person), len(loc), len(org)
 
+
 def process_files(directory, nlp, args, in_folderpath, out_folderpath): 
 
     # Empty list of dictionaries 
@@ -126,15 +130,18 @@ def process_directories(in_folderpath, nlp, args, out_folderpath):
 
     # Iterates over each directory in the list of directories and process each file within in
     for directory in dirs:
+        
         process_files(directory, nlp, args, in_folderpath, out_folderpath)
+
     return directory
+    
 
 def main():
 
     # Creates a folderpath for each directory and makes the directory if it does not exist
     in_folderpath = os.path.join("in", "USEcorpus")
     out_folderpath = os.path.join("out")
-    emissions_folderpath = os.path.join("emissions")
+    emissions_folderpath = os.path.join("..", "assignment_5", "emissions")
     os.makedirs(os.path.join(out_folderpath), exist_ok=True)
     os.makedirs(emissions_folderpath, exist_ok=True)
 
@@ -144,7 +151,7 @@ def main():
                                output_dir=emissions_folderpath) 
 
     # Tracks the initialization of the argument parser
-    tracker.start_task("Initialize_argparse")
+    tracker.start_task("initialize_argparse")
     args = parser()
     tracker.stop_task()
 

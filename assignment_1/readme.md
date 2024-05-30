@@ -6,16 +6,19 @@ This project uses ``spaCy`` to extract linguistic features from ``The Uppsala St
 
 The ``src`` directory contains one script: 
 
-- **linguistic_analysis:** Uses the ``en_core_web_md`` pipeline from spaCy to extract linguistic features from the dataset and saves the results as a csv file in the ``out`` directory.
+- **linguistic_analysis.py:** Uses the ``en_core_web_md`` pipeline from spaCy to extract linguistic features from the dataset and saves the results as a csv file in the ``out`` directory.
 
 
 ### Data
 
-Download the [The Uppsala Student English Corpus (USE)]( https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2457) from the Oxford Text Archive. You should download the USEcorpus.zip file, unzip it and place the ``USEcorpus`` folder in the in directory. 
+According to the USE manual, the dataset consists of "1,489 essays written by 440 Swedish university students" (Axelsson, 2003) over three semesters. Hence, each folder contains essays that vary in language and topics, reflecting the progression of the course. 
+
+Download the [The Uppsala Student English Corpus (USE)]( https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2457) from the Oxford Text Archive, specifically the USEcorpus.zip file, unzip it and place the ``USEcorpus`` folder in the ``in`` directory. 
+
 
 ### Model
 
-This project uses the English [en_core_web_md](https://spacy.io/models/en) pipeline from spaCy, optimized for CPUs, to tokenize the USE dataset and perform part-of-speech (POS) tagging and named entity recognition (NER) on it. 
+This project uses the English [en_core_web_md](https://spacy.io/models/en) pipeline from spaCy to tokenize the USE dataset and perform part-of-speech (POS) tagging and named entity recognition (NER) on it. 
 
 ##  File Structure
 
@@ -47,11 +50,11 @@ This project uses the English [en_core_web_md](https://spacy.io/models/en) pipel
         ├── run.sh
         └── setup.sh
 ```
-*You may notice that the script also produces a csv file that contains the CO2 emissions for each sub-task. Please ignore this folder, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
+*You may notice that the script also produces a csv file that contains the CO2 emissions for each function. Please ignore this folder and all related code, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
 
 ## Usage
 
-If you want to reproduce this project, please follow the steps below. The instructions will help you set up the environment, run the script and understand the available command-line options. 
+If you want to reproduce this project, please follow the steps below. The instructions will help you set up the environment, run the script and explain the available command-line options. 
 
 ### Pre-Requisites
 
@@ -86,7 +89,7 @@ bash run.sh
 source ./LA_A1_env/bin/activate
 
 # Run the code
-python src/linguistic_analysis.py
+python src/linguistic_analysis.py -p "en_core_web_md" -e "latin1"
 
 # Deactivate the environment
 deactivate
@@ -103,17 +106,27 @@ This project supports the following command-line options to customize the script
 
 Go to https://spacy.io/models to find the spaCy pipeline you want to work with and add it as a command-line argument when running the script. Remember to change the encoding accordingly to ensure the text is readable. 
 
-*See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings)*. 
-
-This project uses the ``latin-1 encoding`` as the dataset contains Finnish letters.
+*See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings). This project uses the ``latin-1 encoding``.*
 
 ## Results 
 
-This project produces a csv file containing the results from the linguistic analysis, specifically the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the total number of unique PER, LOC, and ORG entities for each text in the USE dataset, which you can find in the ``out`` directory. 
+You can find a csv of the results from the linguistic analysis in the ``out`` directory, which contains the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the total number of unique PER, LOC, and ORG entities.
+
+This type of analysis is useful for examining the use of language across different literary genres or periods or for determining how students' language progresses over time as they expand their vocabulary.
 
 ### Limitations and future improvements 
 
-?
+- Without some form of visualization, the results may be difficult to understand. Hence, a histogram might be a better solution to improve readability. 
+
+- Also, the USE dataset contains a few inconsistencies (e.g., some students left the English program between semesters), which may affect future analyses. 
+
+
+## References
+
+Axelsson, M. W. (2003). Manual: The Uppsala Student English corpus (USE). Uppsala University Department of English. https://ota.bodleian.ox.ac.uk/repository/xmlui/handle/20.500.12024/2457
+
+
+
 
 
 
