@@ -57,11 +57,11 @@ nlp = spacy.load("en_core_web_md")
         ├── run.sh
         └── setup.sh
 ```
-*You may notice that the script also produces a csv file that contains the CO2 emissions for each sub-task. Please ignore this folder, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
+*You may notice that the script also produces a csv file that contains the CO2 emissions for each function. Please ignore this folder and all related code, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
 
 ## Usage
 
-If you want to reproduce this project, please follow the steps below. The instructions will help you set up the environment, run the script and understand the available command-line options. 
+If you want to reproduce this project, please follow the steps below. The instructions will help you set up the environment, run the script and explain the available command-line options. 
 
 ### Pre-Requisites
 
@@ -121,11 +121,13 @@ This project supports the following command-line options to customize the script
 
 ## Results 
 
+In the ``out`` directory, you can find a csv file of the songs by your chosen artist containing the words from the query expansion and a pie chart showing the percentage of the artist’s songs with those words. Since the script creates the CSV and plots dynamically, new files are generated each time you change the search word or the artist, allowing you to compare songs across the entire dataset.
 
+Something about what this approch might teach us
 
 ### Limitations and future improvements 
 
-?
+- Something about how it is sensitive to spelling mistakes and that the dataset itself contains spelling mistake 
 
 
 

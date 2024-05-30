@@ -1,6 +1,7 @@
 import os
 import gensim
 import pandas as pd
+import numpy as np
 import argparse
 import spacy
 import gensim.downloader as api
@@ -21,7 +22,7 @@ def parser():
                         required=True,
                         help="Specify the word you want to use for the query exspansion")
     
-    # Defines the CLI argument that specifies the encoding used to open the text 
+    # Defines the CLI argument that specifies which artist you want to search for 
     parser.add_argument("--artist",
                         "-a",
                         type=str,
@@ -92,12 +93,12 @@ def find_songs(words, args, df_filtered, nlp):
         # Converts every token in the document to lowercase, replaces the apostrophes with an empty string and removes punctuation and new lines.
         tokens = [token.text.lower().replace("'", "") for token in doc if not token.is_punct and "\n" not in token.text]
 
-        # Checks if any word from the words list is in the tokens list
-        if any(word in words for word in tokens):
-
-            # Appends the song to the corresponding list if a word from the extended query is found within the tokenized text
+        # Checks if the lists contains any of the same words
+        if np.isin(words, tokens).any():
+            
+            # Appends the song to the the corresponding list if the check returns true
             songs.append(row['song'])
-    
+
     return songs
 
 
@@ -113,7 +114,7 @@ def save_csv(songs, df_filtered, args, out_folderpath):
     df_results = pd.DataFrame(songs, columns=["Song (A-Z)"])
 
     # Saves the results as a csv file in the out directory 
-    df_results.to_csv(os.path.join(out_folderpath, f"{args.artist.lower()}_songs_about_{args.word.lower()}.csv"))
+    df_results.to_csv(os.path.join(out_folderpath, f"{args.artist.lower()}_songs_related_to_{args.word.lower()}.csv"))
 
     return percentage
 
@@ -130,15 +131,16 @@ def save_plot(args, percentage, df_filtered, out_folderpath):
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.set_title(f"Percentage of {args.artist} songs that contain words similar to {args.word.lower()}", weight='bold')
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=['#ffde57', '#306998'])
-    plt.savefig(os.path.join(out_folderpath, f"percentage_of_{args.artist.lower()}_songs_about_{args.word.lower()}.png")) 
+    plt.savefig(os.path.join(out_folderpath, f"percentage_of_{args.artist.lower()}_songs_related_to{args.word.lower()}.png")) 
     plt.close()
+
 
 def main():
     
     # Creates a folderpath for each directory and makes the directory if it does not exist
     in_folderpath = os.path.join("in")
     out_folderpath = os.path.join("out")
-    emissions_folderpath = os.path.join("emissions")
+    emissions_folderpath = os.path.join("..", "assignment_5", "emissions")
     os.makedirs(out_folderpath, exist_ok=True)
     os.makedirs(emissions_folderpath, exist_ok=True)
 
@@ -147,34 +149,42 @@ def main():
                                output_file="emissions.csv",
                                output_dir=emissions_folderpath) 
 
+    # Tracks the initialization of the argument parser
     tracker.start_task("initialize_argparse")
     args = parser()
     tracker.stop_task()
 
+    # Tracks the function that loads the gensim and spacy models
     tracker.start_task("load_spacy_and_gensim_models")
     model, nlp = load_models()
     tracker.stop_task()
 
+    # Tracks the function that loads the dataset
     tracker.start_task("load_dataset")
     df = load_data(in_folderpath)
     tracker.stop_task()
 
-    tracker.start_task("load_spacy_and_gensim_models")
+    # Tracks the function that filters the dataframe by artist
+    tracker.start_task("filters_the_dataframe")
     df_filtered = filter_by_artist(df, args)
     tracker.stop_task()
 
+    # Tracks the function that perform query expansion on the target word
     tracker.start_task("query_expansion")
     words = query_expansion(model, args)
     tracker.stop_task()
 
+    # Tracks the function that find songs that matches words from the query expansion 
     tracker.start_task("find_songs")
     songs = find_songs(words, args, df_filtered, nlp)
     tracker.stop_task()
 
+    # Tracks the function that saves the results to a csv
     tracker.start_task("save_to_csv")
     percentage = save_csv(songs, df_filtered, args, out_folderpath)
     tracker.stop_task()
 
+    # Tracks the function that saves the results as a plot
     tracker.start_task("save_plot")
     save_plot(args, percentage, df_filtered, out_folderpath)
     tracker.stop_task()
