@@ -6,8 +6,6 @@ python -m venv LA_A5_env
 ## Activate the environment
 source ./LA_A5_env/bin/activate
 
-# ipython kernel install --user --name=LA_A5_env
-
 ## Install requirements
 pip install --upgrade pip
 pip install -r requirements.txt
