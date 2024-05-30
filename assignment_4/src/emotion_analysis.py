@@ -85,7 +85,7 @@ def main():
     out_folderpath = "out"
     seasons_folderpath = os.path.join(out_folderpath, "seasons")
     emotions_folderpath = os.path.join(out_folderpath, "emotions")
-    emissions_folderpath = os.path.join("emissions")
+    emissions_folderpath = os.path.join("..", "assignment_5", "emissions")
     os.makedirs(out_folderpath, exist_ok=True)
     os.makedirs(seasons_folderpath, exist_ok=True)
     os.makedirs(emotions_folderpath, exist_ok=True)
