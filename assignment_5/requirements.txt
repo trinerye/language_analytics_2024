@@ -1,0 +1,10 @@
+codecarbon
+matplotlib 
+pandas  
+tqdm
+
+
+
+
+
+
