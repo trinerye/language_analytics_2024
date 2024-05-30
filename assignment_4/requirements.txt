@@ -1,11 +1,12 @@
+codecarbon
 matplotlib
 numpy
 pandas
-seaborn
 sentencepiece
 tensorflow
 tf-keras
 transformers
+tqdm
 
 
 
