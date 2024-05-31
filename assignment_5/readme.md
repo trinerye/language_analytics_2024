@@ -3,7 +3,7 @@
 
 ## About
 
-This project tracks the four assignments in this exam portfolio with ``Code Carbon``, evaluating how much CO2 (measured as kilograms of CO₂-equivalent) each assignment emits. The objective is to examine the environmental impact of each assignment and the portfolio as a whole.
+This project tracks the four assignments in this exam portfolio with ``Code Carbon``, evaluating how much CO2 (measured as kilograms of CO₂-equivalent) each assignment emits. The objective is to examine the environmental impact of each assignment and the portfolio as a whole. *(See assignment description [here](https://github.com/CDS-AU-DK/cds-language/tree/main/assignments/assignment5))*
 
 The ``src`` directory contains one script: 
 
@@ -21,7 +21,7 @@ tracker = EmissionsTracker(project_name="emotion_analysis",
                                output_file="emissions.csv",
                                output_dir=emissions_folderpath) 
 
-tracker.start_task("initialize_argparse")
+tracker.start_task("setup_the_classifier")
 
 # Function to track
 
@@ -107,9 +107,9 @@ deactivate
 
 ## Results 
 
-In the ``out`` directory, you will find a copy of the processed csv file, a plot of all CO2 emissions across the assignments, and an individual plot of tasks for each assignment.
+In the ``out`` directory, you will find a copy of the merged csv files, a plot of all CO2 emissions across the assignments, and an individual plot of tasks for each assignment.
 
-Examining the first plot, we see that the first two tasks barely contribute to the overall CO2 emission for the assignment, with argparse not even showing on the plot. However, that is not a surprise, as the *perform_spacy_analysis* function handles almost every subtask within this project, such as processing the directories and files, extracting linguistic features, and saving the results, which explain the 0.002 CO2eq emission.
+Examining the first plot, one finds that the first two tasks barely contribute to the overall CO2 emission for the assignment, with argparse not even showing on the plot. However, that is not a surprise, as the *perform_spacy_analysis* function handles almost every subtask within this project, such as processing the directories and files, extracting linguistic features, and saving the results, which explain the 0.002 CO2eq emission.
 
 ![plot](out/linguistic_analysis.png)
 
@@ -123,13 +123,16 @@ The third plot, which involves query expansion, shows a greater variety of CO2 e
 
 ![plot](out/query_expansion.png)
 
-In the fourth plot, the majority of CO2 emissions can be attributed to the extract_ emotion_labels function, reaching a 0.026 CO2eq, making it the highest contributor to overall emissions across the entire portfolio. Second in this assignment is the setup_the _classisfier function, which, together with the extract_ emotion_labels function, handles most of the computation for this project.
+In the fourth plot, the majority of CO2 emissions can be attributed to the *extract_ emotion_labels* function with a 0.026 CO2eq, making it the highest contributor to overall emissions across the entire portfolio. Second in this assignment is the *setup_the _classisfier* function, which, together with the extract_ emotion_labels function, handles most of the computation for this project.
 
 ![plot](out/emotion_analysis.png)
 
-When comparing all the assignments, the fourth one stands out compared to the others, contributing the most to this portfolio's overall CO2 emissions, which makes sense as the extract_emotion_label function utilizes a transformer model which takes a sequence an input instead of just one word, increasing the complexity of the function. However, these plots do not necessarily reflect the time it took to create this code. Since we have worked on these assignments all semester, multiple test runs and iterations have been made, which all add up in the end, not to mention the computational power it takes to run a cloud computer like Ucloud, which had access throughout the course. Therefore, although this portfolio may appear sustainable from this analysis, the resources it took to produce these results are far from it. 
+When comparing all the assignments, the fourth one stands out compared to the others as it contributes the most to this portfolio's overall CO2 emissions, which is likely because the extract_emotion_label function utilizes a transformer model that takes a sequence as an input instead of just one word, increasing the complexity of the function.
 
 ![plot](out/all_assignments.png)
+
+However, these plots do not necessarily reflect the time it took to create this code. Since we have worked on these assignments all semester, multiple test runs and iterations have been made, which all add up in the end, not to mention the computational power it takes to run a cloud computer like Ucloud, which we had access to throughout the course. Therefore, although this portfolio may appear sustainable from this analysis, the resources it took to produce these results are far from it. 
+
 
 ### Limitations and future improvments 
 

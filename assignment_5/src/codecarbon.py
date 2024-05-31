@@ -30,7 +30,7 @@ def plot_assignment_1(df, out_folderpath):
     plt.bar(df_linguistic['task_name'], df_linguistic['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
-    plt.title('CO2 emissions from each task', weight="bold")
+    plt.title('CO2 emissions from each task in assignment 1', weight="bold")
     plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "linguistic_analysis.png")) 
     plt.close()
@@ -48,7 +48,7 @@ def plot_assignment_2(df, out_folderpath):
     plt.bar(df_text['task_name'], df_text['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
-    plt.title('CO2 emissions from each task', weight="bold")
+    plt.title('CO2 emissions from each task in assignment 2', weight="bold")
     plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "text_classification.png")) 
     plt.close()
@@ -66,7 +66,7 @@ def plot_assignment_3(df, out_folderpath):
     plt.bar(df_query['task_name'], df_query['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
-    plt.title('CO2 emissions from each task', weight="bold")
+    plt.title('CO2 emissions from each task in assignment 3', weight="bold")
     plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "query_expansion.png")) 
     plt.close()
@@ -84,7 +84,7 @@ def plot_assignment_4(df, out_folderpath):
     plt.bar(df_emotion['task_name'], df_emotion['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
-    plt.title('CO2 emissions from each task', weight="bold")
+    plt.title('CO2 emissions from each task in assignment 4', weight="bold")
     plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "emotion_analysis.png")) 
     plt.close()
@@ -104,7 +104,7 @@ def process_csv_files(in_folderpath):
     # Iterates over each file in the list of filenames
     for i, file in enumerate(filenames):
 
-        # If a file with the specified filename does not exist then rename the files in the emissions folder
+        # If a file with the specified filename does not exist then rename the file in the emissions folder
         if not os.path.exists(os.path.join(in_folderpath, f"emissions_base_{i}.csv")):
 
             old = os.path.join(in_folderpath, file)
@@ -155,6 +155,8 @@ def main():
     plot_assignment_2(df, out_folderpath)
     plot_assignment_3(df, out_folderpath)
     plot_assignment_4(df, out_folderpath)
+
+    # Groups the dataframe by the 'project_name' column, sums the values in the 'emissions' column and plots the result
     plot_all_assignments(df, out_folderpath)
 
 if __name__ == "__main__":
