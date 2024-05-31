@@ -137,7 +137,7 @@ You can find the classification reports from both classifiers in the ``out`` dir
 |----------------|------------|------|--------|
 |weighted average|0.92        |0.92  |0.92    |
 
-The classification reports reveal that both classifiers perform well on the test data, with an F1-Score of 0.91 for the logistic regression classifier and 0.91 for the neural network classifier. Both classifiers are thus well suited for binary classification tasks such as detecting real or fake news. However, considering the neural network classifier takes much longer to run without significantly improving the result, the logistic regression classifier is preferred, as it saves time and reduces CO2 emissions. *Read more about this in [assignment 5]()*
+The classification reports reveal that both classifiers perform well on the test data, with an F1-Score of 0.91 for the logistic regression classifier and 0.91 for the neural network classifier. Both classifiers are thus well suited for binary classification tasks such as detecting real or fake news. However, considering the neural network classifier takes much longer to run without significantly improving the result, the logistic regression classifier is preferred, as it saves time and reduces CO2 emissions. *Read more about this in assignment 5*
 
 
 ### Limitations and future improvements 
