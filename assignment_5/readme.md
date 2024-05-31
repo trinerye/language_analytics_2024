@@ -123,15 +123,17 @@ The third plot, which involves query expansion, shows a greater variety of CO2 e
 
 ![plot](out/query_expansion.png)
 
-
-
-
+In the fourth plot, the majority of CO2 emissions can be attributed to the extract_ emotion_labels function, reaching a 0.026 CO2eq, making it the highest contributor to overall emissions across the entire portfolio. Second in this assignment is the setup_the _classisfier function, which, together with the extract_ emotion_labels function, handles most of the computation for this project.
 
 ![plot](out/emotion_analysis.png)
+
+When comparing all the assignments, the fourth one stands out compared to the others, contributing the most to this portfolio's overall CO2 emissions. However, these plots do not reflect the time it took to create this code. Since we have worked on these assignments all semester, multiple test runs and iterations have been made, which all add up in the end, not to mention the computational power it takes to run a cloud computer like Ucloud, on which the code was created. Therefore, although this portfolio may appear sustainable from this analysis, the resources it took to produce these results are far from it. 
+
 ![plot](out/all_assignments.png)
 
 ### Limitations and future improvments 
 
+- While the EmissionsTracker object works great for tracking individual functions, the emissions.csv does not calculate the overall emissions for the entire script as expected.  Because of this, the file is deleted from the emissions folder. Thus, to compare CO2 emissions across the whole portfolio, each assignment is grouped by their project name, after which the emissions are added together. 
 
 
 
