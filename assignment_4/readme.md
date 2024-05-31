@@ -14,52 +14,49 @@ The ``src`` directory contains two scripts:
 
 ### Data
 
-Download the dataset used for this project [here](https://www.kaggle.com/datasets/joebeachcapital/57651-spotify-songs), then unzip the folder and place the ``Spotify Million Song Dataset_exported.csv`` in the ``in`` directory.
+Download the dataset used for this project [here](https://www.kaggle.com/datasets/albenft/game-of-thrones-script-all-seasons?select=Game_of_Thrones_Script.csv), unzip the folder and place the ``Game_of_Thrones_Script.csv"`` in the ``in`` directory.
+
 
 ### Model
 
-This project uses the [glove-wiki-gigaword-50](https://huggingface.co/fse/glove-wiki-gigaword-50) model from gensim to produce word embeddings used for the query expansion, which you can access through the gensim.downloader API as follows:
+You can set up the [Emotion English DistilRoBERTa-base](https://huggingface.co/j-hartmann/emotion-english-distilroberta-base) classifier for text classification as follows:
 
 ```sh
-import gensim.downloader as api
+from transformers import pipeline
 
-# Loads the the gensim model
-model = api.load("glove-wiki-gigaword-50")
+classifier = pipeline("text-classification",
+                          model="j-hartmann/emotion-english-distilroberta-base",
+                          top_k=1)
+
 ```
-It also uses the English [en_core_web_md](https://spacy.io/models/en) pipeline from spaCy to tokenize the text column which contains the song lyrics.
 
-```sh
-import spacy
-
-# Loads the spaCy pipeline
-nlp = spacy.load("en_core_web_md")
-```
+By setting ``top_k= 1, ``, the classifier only returns the top prediction, e.g., the emotion label with the highest score for each line.
 
 ##  File Structure
 
 ```
-└── assignment_3
+└── assignment_4
         |
-        ├── emissions
-        |   ├── emissions_base_id
-        |   └── emissions.csv
         |
         ├── in
-        │   └── Spotify Million Song Dataset_exported.csv 
+        │   └── Game_of_Thrones_Script.csv
         |
         ├── out
-        |   ├── {args.artist}_songs_about_{args.word}.csv
-        |   └── percentage_of_{args.artist}_songs_about_{args.word}.png
+        |   ├── emotions
+        |   ├── seasons
+        |   ├── emotion_distribution.csv
+        |   └── emotions_across_seasons.csv
         |
         ├── src
-        │   └── query_expansion.py
+        |   ├──emotion_analysis.py
+        │   └── plotting_tools.py
         │     
         ├── readme.md
         ├── requirements.txt
         ├── run.sh
         └── setup.sh
+
 ```
-*You may notice that the script also produces a csv file that contains the CO2 emissions for each function. Please ignore this folder and all related code, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
 
 ## Usage
 
@@ -80,12 +77,10 @@ git clone https://github.com/trinerye/language_analytics_2024.git
 
 **2.** Change directory to the assignment folder.
 ```sh
-cd assignment_3
+cd assignment_4
 ```
 
 **3.** Run ``setup.sh`` to create an environment and install the dependencies needed for this project. 
-
-***Important**: this project was built using ``scipy==1.11.0.`` Do not update this package, as newer versions are incompatible with the ``genism==4.3.2`` version.*
 
 ```sh
 bash setup.sh
@@ -98,37 +93,41 @@ bash run.sh
 ```sh
 ...
 # Activate the environment (Unix/macOS)
-source ./LA_A3_env/bin/activate
+source ./LA_A4_env/bin/activate
 
 # Run the code
-python src/query_expansion.py -w dreams  -a aerosmith 
+python src/emotion_analysis.py
 
 # Deactivate the environment
 deactivate
 ```
 
-### Command Line Interface  
-
-This project supports the following command-line options to customize the script. 
-
-***Important:** Remember to write the artist's name in quotations if it contains spaces, as argparse will otherwise dismiss the argument as an error.* 
-
-|Flag      |Shorthand|Description                                                 |Type |Required|
-|----------|---------|------------------------------------------------------------|-----|--------|
-|--artist  |-a       |Specifies the word you want to use for the query exspansion |str  |TRUE    |
-|--word    |-w       |Specifies the artist you want to search for                 |str  |TRUE    |
-
-
 ## Results 
 
-In the ``out`` directory, you can find a csv file of the songs by your chosen artist containing the words from the query expansion and a pie chart showing the percentage of the artist’s songs with those words. Since the script creates the csv and plot dynamically, new files are generated each time you change the search word or the artist, allowing you to compare songs across the entire dataset.
+In the ``out`` directory, you can find a filtered and unfiltered version of the Game of Thrones predictions together with the ``emotions`` and ``seasons`` folders that contain several plots showing the distribution of emotion labels for each season and the relative frequency of emotions across seasons.
 
+| Season   | Anger | Disgust | Fear | Joy | Neutral | Sadness | Surprise |
+|----------|-------|---------|------|-----|---------|---------|----------|
+| Season 1 | 0.17  | 0.11    | 0.04 | 0.04| 0.45    | 0.06    | 0.12     |
+| Season 2 | 0.16  | 0.11    | 0.05 | 0.04| 0.48    | 0.05    | 0.11     |
+| Season 3 | 0.14  | 0.12    | 0.05 | 0.04| 0.48    | 0.05    | 0.12     |
+| Season 4 | 0.16  | 0.11    | 0.05 | 0.04| 0.46    | 0.06    | 0.12     |
+| Season 5 | 0.15  | 0.10    | 0.05 | 0.05| 0.48    | 0.06    | 0.12     |
+| Season 6 | 0.16  | 0.09    | 0.04 | 0.04| 0.50    | 0.07    | 0.10     |
+| Season 7 | 0.15  | 0.08    | 0.05 | 0.04| 0.52    | 0.04    | 0.11     |
+| Season 8 | 0.18  | 0.07    | 0.04 | 0.04| 0.50    | 0.06    | 0.12     |
 
-### Limitations
+Based on the overview of the emotion distribution across seasons, Game of Thrones is not a very joyful series - as in - many lines in the script are not associated with the emotion label joy.
 
-- While the script converts the artist's name and the search word into lowercase to expand the search, it does not consider spelling mistakes. So, you will need to spell things correctly when parsing the command-line arguments; otherwise, errors will occur. 
+On the other hand, emotions such as anger and disgust score high across the dataset, with anger having the highest relative frequency of lines besides that of neutral emotions. Looking at anger specifically, it makes sense that season eight is the angriest, as this is where the final battle between good and evil occurs. It also makes sense that the relative frequency of lines that express surprise is primarily uniform across all seasons, as the show was known for its suspenseful cliffhangers and the kill-your-darlings concept. 
 
-- Also, the genism glove-wiki-gigaword-50 model has an extensive vocabulary, including  1.2 million words. However, the Spotify Million Song Dataset only contains 643 unique artists, so your choice of artist is relatively limited. 
+Although all emotions are present within the dataset, it is no surprise that lines containing neutral emotion appear much more often than any other emotion, likely due to filler words, monotone language, or the lack of adjectives.
+
+In conclusion, while the distribution of emotions across each season stays pretty much the same, the progression of each emotion changes throughout the series. 
+
+### Limitations and future improvments 
+
+- Since we do not know why the lines are associated with specific emotions, as the classifier black-boxes this, one could perform a linguistic analysis on the dataset, counting the frequency of adjectives which carry many emotions versus more neutral adverbs to uncover this.  
 
 
 
