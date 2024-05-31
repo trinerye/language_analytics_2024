@@ -117,8 +117,9 @@ This project supports the following command-line options to customize the script
 
 In the ``out`` directory, you can find a csv file of the songs by your chosen artist containing the words from the query expansion and a pie chart showing the percentage of the artist’s songs with those words. Since the script creates the csv and plot dynamically, new files are generated each time you change the search word or the artist, allowing you to compare songs across the entire dataset.
 
-**Add pie plot of aerosmith and briefly explain it**
+![plot](out/percentage_of_aerosmith_songs_related_to_dreams.png)
 
+*This is an example of the pie chart, showing the percentage of songs by Aerosmith that contains words similar to dreams*
 
 ### Limitations
 

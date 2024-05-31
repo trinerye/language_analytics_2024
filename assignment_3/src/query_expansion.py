@@ -130,7 +130,7 @@ def save_plot(args, percentage, df_filtered, out_folderpath):
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.set_title(f"Percentage of {args.artist} songs that contain words similar to {args.word.lower()}", weight='bold')
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=['#ffde57', '#306998'])
-    plt.savefig(os.path.join(out_folderpath, f"percentage_of_{args.artist.lower()}_songs_related_to{args.word.lower()}.png")) 
+    plt.savefig(os.path.join(out_folderpath, f"percentage_of_{args.artist.lower()}_songs_related_to_{args.word.lower()}.png")) 
     plt.close()
 
 
