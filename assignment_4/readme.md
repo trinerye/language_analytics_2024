@@ -3,7 +3,7 @@
 
 ## About
 
-This project uses the pre-trained ``Emotion English DistilRoBERTa-base`` classifier by ``j-hartmann``, which is available on ``Hugging Face``, to predict emotion labels for each of the lines in the ``Game of Thrones Script`` dataset to see if the emotional profile changes through the series.
+This project uses the pre-trained ``Emotion English DistilRoBERTa-base`` classifier by ``j-hartmann``, which is available on ``Hugging Face``. It predicts emotion labels for each of the lines in the ``Game of Thrones Script`` dataset to see if the emotional profile changes through the series.
 
 The ``src`` directory contains two scripts: 
 
@@ -60,7 +60,7 @@ By setting ``top_k= 1, ``, the classifier only returns the top prediction, e.g.,
 
 ## Usage
 
-If you want to reproduce this project, please follow the steps below. The instructions will help you set up the environment, run the script and explain the available command-line options. 
+If you want to reproduce this project, please follow the steps below. The instructions will help you set up the environment and run the script. 
 
 ### Pre-Requisites
 

@@ -122,8 +122,6 @@ def main():
     save_results(df_filtered, out_folderpath)
     tracker.stop_task()
 
-    # df_filtered= pd.read_csv(os.path.join(out_folderpath, ""emotion_by_season.csv""))
-
     # Tracks the function that plots the results 
     tracker.start_task("plot_results")
     plot_results(df_filtered, seasons_folderpath, emotions_folderpath)
