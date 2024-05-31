@@ -127,7 +127,7 @@ In the fourth plot, the majority of CO2 emissions can be attributed to the extra
 
 ![plot](out/emotion_analysis.png)
 
-When comparing all the assignments, the fourth one stands out compared to the others, contributing the most to this portfolio's overall CO2 emissions. However, these plots do not reflect the time it took to create this code. Since we have worked on these assignments all semester, multiple test runs and iterations have been made, which all add up in the end, not to mention the computational power it takes to run a cloud computer like Ucloud, on which the code was created. Therefore, although this portfolio may appear sustainable from this analysis, the resources it took to produce these results are far from it. 
+When comparing all the assignments, the fourth one stands out compared to the others, contributing the most to this portfolio's overall CO2 emissions, which makes sense as the extract_emotion_label function utilizes a transformer model which takes a sequence an input instead of just one word, increasing the complexity of the function. However, these plots do not necessarily reflect the time it took to create this code. Since we have worked on these assignments all semester, multiple test runs and iterations have been made, which all add up in the end, not to mention the computational power it takes to run a cloud computer like Ucloud, which had access throughout the course. Therefore, although this portfolio may appear sustainable from this analysis, the resources it took to produce these results are far from it. 
 
 ![plot](out/all_assignments.png)
 
