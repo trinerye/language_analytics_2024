@@ -55,9 +55,6 @@ This project uses the [TfidfVectorizer](https://scikit-learn.org/stable/modules/
 ```
 └── assignment_2
         |
-        ├── emissions
-        |   ├── emissions_base_id
-        |   └── emissions.csv
         |
         ├── in
         │   └── fake_or_real_news.csv
@@ -76,7 +73,6 @@ This project uses the [TfidfVectorizer](https://scikit-learn.org/stable/modules/
         ├── run.sh
         └── setup.sh
 ```
-*You may notice that the script also produces a csv file that contains the CO2 emissions for each function. Please ignore this folder and all related code, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
 
 ## Usage
 
