@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def plot_all_assignments(df, out_folderpath):
 
-    # Groups the entire dataframe by the 'project_name' column and sums the values in the 'emissions' column
+    # Groups the entire dataframe by the 'project_name' column, sums the values in the 'emissions' column and resets the index after grouping
     df_filtered = df.groupby('project_name')['emissions'].sum().reset_index()
 
     # Creates a plot of the emissions for each assignment
@@ -129,7 +129,7 @@ def create_dataframes(filenames, in_folderpath, out_folderpath):
     filepaths = [os.path.join(in_folderpath, filename) for filename in new_filenames]
 
     # Merges all the csv files together into one dataframe
-    df = pd.concat(map(pd.read_csv, filepaths)) ### check what this does
+    df = pd.concat(map(pd.read_csv, filepaths)) 
 
     # Saves the dataframe in the out folder
     df.to_csv(os.path.join(out_folderpath, "all_emissions.csv"))
