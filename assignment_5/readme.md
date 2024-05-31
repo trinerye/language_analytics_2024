@@ -109,9 +109,24 @@ deactivate
 
 In the ``out`` directory, you will find a copy of the processed csv file, a plot of all CO2 emissions across the assignments, and an individual plot of tasks for each assignment.
 
+Examining the first plot, we see that the first two tasks barely contribute to the overall CO2 emission for the assignment, with argparse not even showing on the plot. However, that is not a surprise, as the *perform_spacy_analysis* function handles almost every subtask within this project, such as processing the directories and files, extracting linguistic features, and saving the results, which explain the 0.002 CO2eq emission.
+
 ![plot](out/linguistic_analysis.png)
+
+Since the primary tasks in assignment_2 invovle vectorizing the dataset and training the logistic regression and neural network classifiers, it makes sense that these are the functions which contributes the most to the overall CO2 emissions for this assignment. 
+
+When considering the environmental impact of both classifiers, the logistic regression classifier is the most sustainable approach as it produces far under the 0.0016 CO2eq that the neural network classifier produces while producing almost identical performance results.
+
 ![plot](out/text_classification.png)
+
+The third plot, which involves query expansion, shows a greater variety of CO2 emissions across tasks than any other assignment. When comparing the different functions, loading the gensim and spacy models contributes the most to the overall CO2 emission with a 0.00015 COeq. Still, all emission values are relatively small, which makes sense as this assignment takes the shortest time to run.
+
 ![plot](out/query_expansion.png)
+
+
+
+
+
 ![plot](out/emotion_analysis.png)
 ![plot](out/all_assignments.png)
 
