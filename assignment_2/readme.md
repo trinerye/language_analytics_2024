@@ -1,7 +1,7 @@
 # Assignment 2: Text classification benchmarks
 
 ## About
-This project uses ``scikit-learn`` to perform binary classification on the ``Fake or Real News`` dataset, determining whether the information is real or fake. It also vectorizes the data using the ``TfidfVectorizer``, transforming the text into a matrix of TF-IDF (Term Frequency-Inverse Document Frequency) features. These features are then used to train the ``LogisticRegression()`` classifier and ``MLPClassifier()``.
+This project uses ``scikit-learn`` to perform binary classification on the ``Fake or Real News`` dataset, determining whether the information is real or fake. It also vectorizes the data using the ``TfidfVectorizer``, transforming the text into a matrix of TF-IDF (Term Frequency-Inverse Document Frequency) features. These features are then used to train the ``LogisticRegression()`` classifier and ``MLPClassifier()``. *(See assignment description [here](https://github.com/CDS-AU-DK/cds-language/tree/main/assignments/assignment2))*
 
 - **logistic_regression.py:** Trains the logistic regression classifier and saves a classification report in the ``out`` directory
 
@@ -12,7 +12,7 @@ This project uses ``scikit-learn`` to perform binary classification on the ``Fak
 
 ### Data
 
-Download the fake_or_real_news.csv from [lutzhamel]( https://github.com/lutzhamel/fake-news/blob/master/data/fake_or_real_news.csv) on Github and place it in the ``in`` directory. 
+Download the fake_or_real_news.csv from [Kaggle](https://www.kaggle.com/datasets/jillanisofttech/fake-or-real-news), unzip the folder and place it in the ``in`` directory. 
 
 ### Model
 
@@ -137,7 +137,7 @@ You can find the classification reports from both classifiers in the ``out`` dir
 |----------------|------------|------|--------|
 |weighted average|0.92        |0.92  |0.92    |
 
-The classification reports reveal that both classifiers perform well on the test data, with an F1-Score of 0.91 for the logistic regression classifier and 0.91 for the neural network classifier. Both classifiers are thus well suited for binary classification tasks such as detecting real or fake news. However, considering the neural network classifier takes much longer to run without significantly improving the result, the logistic regression classifier is preferred, as it saves time and reduces CO2 emissions. *Read more about this in assignment 5*
+The classification reports reveal that both classifiers perform well on the test data, with an F1-Score of 0.91 for the logistic regression classifier and 0.92 for the neural network classifier. Both classifiers are thus well suited for this binary classification task. However, since the neural network classifier takes much longer to run without significantly improving the result, the logistic regression classifier is preferred, as it saves time and reduces CO2 emissions. *Read more about this in assignment 5*
 
 
 ### Limitations and future improvements 
@@ -147,3 +147,8 @@ The classification reports reveal that both classifiers perform well on the test
 - Also, the script does not plot the loss curve, which makes it hard to check if the classifiers are overfitting or underfitting on the training data. 
 
 
+## Code Carbon
+
+Please ignore the code related to ``Code Carbon``, as it is part of another assignment and, therefore, unnecessary to reproduce this project. 
+
+*For more information about this project's environmental impact, see [assignment_5](../assignment_5/readme.md).*

@@ -23,7 +23,7 @@ def save_classifier(classifier, classifier_path):
     joblib.dump(classifier, os.path.join(classifier_path, "neural_network_classifier.joblib"))
 
 # This function creates a classification report that evaluates the performance of the classifier
-def evaluate_model(classifier, X_test_feats, y_test):
+def evaluate_classifier(classifier, X_test_feats, y_test):
     print("Creating the classification report")
     return metrics.classification_report(y_test, classifier.predict(X_test_feats)) # the second parameter is the prediction (y_pred)
 
@@ -66,7 +66,7 @@ def main():
 
     # Tracks the function that produces the classification report
     tracker.start_task("create_neural_network_classification_report")
-    classifier_metrics = evaluate_model(classifier, X_test_feats, y_test)
+    classifier_metrics = evaluate_classifier(classifier, X_test_feats, y_test)
     tracker.stop_task()
 
     # Tracks the function that saves the classification report

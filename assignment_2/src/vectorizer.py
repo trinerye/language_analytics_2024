@@ -1,14 +1,11 @@
-#%%
 import os
-import sys
-sys.path.append("..")
 import pandas as pd
 import joblib
 from codecarbon import EmissionsTracker
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split, ShuffleSplit
-import matplotlib.pyplot as plt
+
 
 def load_data():
 
@@ -20,8 +17,9 @@ def load_data():
     # Loads the dataset
     data = pd.read_csv(os.path.join(in_folderpath, "fake_or_real_news.csv")) 
 
-    X_train, X_test, y_train, y_test = train_test_split(data["text"], data["label"], test_size=0.2, random_state=42) 
     # Splits the dataset into a train/test split with a fixed random state for reproducibility.
+    X_train, X_test, y_train, y_test = train_test_split(data["text"], data["label"], test_size=0.2, random_state=42) 
+    
     return data, X_train, X_test, y_train, y_test
 
 
@@ -80,4 +78,4 @@ def main():
 if __name__ == "__main__":
     main()
   
-# %%
+
