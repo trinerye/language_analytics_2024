@@ -3,7 +3,7 @@
 
 ## About
 
-This project uses word embeddings from the genism ``glove-wiki-gigaword-50`` model to search for a target word using query expansions in the ``Spotify Million Song Dataset``. Hence, the script searches both for the target word and the ten most similar words related to it. You can choose the artist and the word you want to search for by adding them as an argparse argument. 
+This project performs query expansion on a target word using word embeddings from the genism ``glove-wiki-gigaword-50`` to search for songs in the ``Spotify Million Song Dataset``. The script searches for both the target word and the ten most similar words related to it. You can choose the artist and the word you want to search for by adding them as an argparse argument. 
 
 The ``src`` directory contains one script: 
 
@@ -12,7 +12,7 @@ The ``src`` directory contains one script:
 
 ### Data
 
-Download the dataset used for this project [here](https://www.kaggle.com/datasets/joebeachcapital/57651-spotify-songs), then unzip the folder and place the ``Spotify Million Song Dataset_exported.csv`` in the ``in`` directory.
+Download the dataset used for this project [here](https://www.kaggle.com/datasets/joebeachcapital/57651-spotify-songs), unzip the folder and place the ``Spotify Million Song Dataset_exported.csv`` in the ``in`` directory.
 
 ### Model
 
@@ -38,9 +38,6 @@ nlp = spacy.load("en_core_web_md")
 ```
 └── assignment_3
         |
-        ├── emissions
-        |   ├── emissions_base_id
-        |   └── emissions.csv
         |
         ├── in
         │   └── Spotify Million Song Dataset_exported.csv 
@@ -57,7 +54,6 @@ nlp = spacy.load("en_core_web_md")
         ├── run.sh
         └── setup.sh
 ```
-*You may notice that the script also produces a csv file that contains the CO2 emissions for each function. Please ignore this folder and all related code, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
 
 ## Usage
 
@@ -109,7 +105,7 @@ deactivate
 
 This project supports the following command-line options to customize the script. 
 
-***Important:** While the script converts the artist's name and the search word into lowercase to expand the search, it does not consider spelling mistakes, so remember to spell things correctly. Also, remember to write the artist's name in quotations if it contains spaces, as argparse will otherwise dismiss the argument as an error.* 
+***Important:** Remember to write the artist's name in quotations if it contains spaces, as argparse will otherwise dismiss the argument as an error.* 
 
 |Flag      |Shorthand|Description                                                 |Type |Required|
 |----------|---------|------------------------------------------------------------|-----|--------|
@@ -117,17 +113,18 @@ This project supports the following command-line options to customize the script
 |--word    |-w       |Specifies the artist you want to search for                 |str  |TRUE    |
 
 
-
-
 ## Results 
 
-In the ``out`` directory, you can find a csv file of the songs by your chosen artist containing the words from the query expansion and a pie chart showing the percentage of the artist’s songs with those words. Since the script creates the CSV and plots dynamically, new files are generated each time you change the search word or the artist, allowing you to compare songs across the entire dataset.
+In the ``out`` directory, you can find a csv file of the songs by your chosen artist containing the words from the query expansion and a pie chart showing the percentage of the artist’s songs with those words. Since the script creates the csv and plot dynamically, new files are generated each time you change the search word or the artist, allowing you to compare songs across the entire dataset.
 
-Something about what this approch might teach us
+**Add pie plot of aerosmith and briefly explain it**
 
-### Limitations and future improvements 
 
-- Something about how it is sensitive to spelling mistakes and that the dataset itself contains spelling mistake 
+### Limitations
+
+- While the script converts the artist's name and the search word into lowercase to expand the search, it does not consider spelling mistakes. So, you will need to spell things correctly when parsing the command-line arguments; otherwise, errors will occur. 
+
+- Also, the genism glove-wiki-gigaword-50 model has an extensive vocabulary, including  1.2 million words. However, the Spotify Million Song Dataset only contains 643 unique artists, so your choice of artist is relatively limited. 
 
 
 

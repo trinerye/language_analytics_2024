@@ -7,7 +7,6 @@ import spacy
 import gensim.downloader as api
 from codecarbon import EmissionsTracker
 import matplotlib.pyplot as plt
-from colorama import Fore
 
 
 def parser():
@@ -145,7 +144,7 @@ def main():
     os.makedirs(emissions_folderpath, exist_ok=True)
 
     # Initializes the emissions tracker by codecarbon
-    tracker = EmissionsTracker(project_name="logistic_regression_classification",
+    tracker = EmissionsTracker(project_name="query_expansion",
                                output_file="emissions.csv",
                                output_dir=emissions_folderpath) 
 

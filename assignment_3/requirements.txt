@@ -1,5 +1,4 @@
 codecarbon==2.4.2
-colorama==0.4.6
 gensim==4.3.2
 matplotlib==3.9.0
 numpy==1.26.4
