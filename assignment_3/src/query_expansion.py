@@ -126,7 +126,7 @@ def save_plot(args, percentage, df_filtered, out_folderpath):
     # Determines the size for each 'slice'
     sizes = [percentage, (100-percentage)]
 
-    # Creates a piechart displaying the percentage of songs by the artist that contains a word from the query expansion 
+    # Creates a pie chart displaying the percentage of songs by the artist that contains a word from the query expansion 
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.set_title(f"Percentage of {args.artist} songs that contain words similar to {args.word.lower()}", weight='bold')
     ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=['#ffde57', '#306998'])

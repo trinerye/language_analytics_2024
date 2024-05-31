@@ -3,7 +3,7 @@
 
 ## About
 
-This project performs query expansion on a target word using word embeddings from the genism ``glove-wiki-gigaword-50`` to search for songs in the ``Spotify Million Song Dataset``. The script searches for both the target word and the ten most similar words related to it. You can choose the artist and the word you want to search for by adding them as an argparse argument. 
+This project performs query expansion on a target word using word embeddings from the genism ``glove-wiki-gigaword-50`` model to search for songs in the ``Spotify Million Song Dataset``. The script searches for both the target word and the ten most similar words related to it. You can choose the artist and the word you want to search for by adding them as an argparse argument. *(See assignment description [here](https://github.com/CDS-AU-DK/cds-language/tree/main/assignments/assignment3))*
 
 The ``src`` directory contains one script: 
 
@@ -123,11 +123,15 @@ In the ``out`` directory, you can find a csv file of the songs by your chosen ar
 
 ### Limitations
 
-- While the script converts the artist's name and the search word into lowercase to expand the search, it does not consider spelling mistakes. So, you will need to spell things correctly when parsing the command-line arguments; otherwise, errors will occur. 
+- While the script converts the artist's name and the search word into lowercase to make the search uniform, it does not consider spelling mistakes. So, you will need to spell things correctly when parsing the command-line arguments; otherwise, errors will occur. 
 
-- Also, the genism glove-wiki-gigaword-50 model has an extensive vocabulary, including  1.2 million words. However, the Spotify Million Song Dataset only contains 643 unique artists, so your choice of artist is relatively limited. 
+- Also, the gensim glove-wiki-gigaword-50 model has an extensive vocabulary, including  1.2 million words. However, the Spotify Million Song Dataset only contains 643 unique artists, so your choice of artist is relatively limited. 
 
+## Code Carbon
 
+Please ignore the code related to ``Code Carbon``, as it is part of another assignment and, therefore, unnecessary to reproduce this project. 
+
+*For more information about this project's environmental impact, see [assignment_5](../assignment_5/readme.md).*
 
 
 
