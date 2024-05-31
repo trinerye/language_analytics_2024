@@ -8,12 +8,12 @@ def plot_all_assignments(df, out_folderpath):
     df_filtered = df.groupby('project_name')['emissions'].sum().reset_index()
 
     # Creates a plot of the emissions for each assignment
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(20, 24))
     plt.bar(df_filtered['project_name'], df_filtered['emissions'])
     plt.xlabel('Assignment', weight="bold")
     plt.ylabel('Emissions', weight="bold")
     plt.title('Emissions from each assignment', weight="bold")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "all_assignments.png")) 
     plt.close()
 
@@ -26,12 +26,12 @@ def plot_assignment_1(df, out_folderpath):
     df_linguistic = df[df['project_name'].isin(linguistic)][['task_name', 'emissions']]
 
     # Creates a plot of tasks in assignment 1
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(20, 24))
     plt.bar(df_linguistic['task_name'], df_linguistic['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
     plt.title('CO2 emissions from each task', weight="bold")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "linguistic_analysis.png")) 
     plt.close()
 
@@ -44,12 +44,12 @@ def plot_assignment_2(df, out_folderpath):
     df_text = df[df['project_name'].isin(text)][['task_name', 'emissions']]
 
     # Creates a plot of tasks in assignment 2
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(18, 24))
     plt.bar(df_text['task_name'], df_text['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
     plt.title('CO2 emissions from each task', weight="bold")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "text_classification.png")) 
     plt.close()
 
@@ -62,12 +62,12 @@ def plot_assignment_3(df, out_folderpath):
     df_query = df[df['project_name'].isin(query)][['task_name', 'emissions']]
 
     # Creates a plot of tasks in assignment 3
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(20, 24))
     plt.bar(df_query['task_name'], df_query['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
     plt.title('CO2 emissions from each task', weight="bold")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "query_expansion.png")) 
     plt.close()
 
@@ -80,12 +80,12 @@ def plot_assignment_4(df, out_folderpath):
     df_emotion = df[df['project_name'].isin(emotion)][['task_name', 'emissions']]
 
     # Creates a plot of tasks in assignment 4
-    plt.figure(figsize=(15, 10))
+    plt.figure(figsize=(20, 22))
     plt.bar(df_emotion['task_name'], df_emotion['emissions'])
     plt.xlabel('Task Name', weight="bold")
     plt.ylabel('Emissions', weight="bold")
     plt.title('CO2 emissions from each task', weight="bold")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=40)
     plt.savefig(os.path.join(out_folderpath, "emotion_analysis.png")) 
     plt.close()
 
@@ -132,7 +132,7 @@ def create_dataframes(filenames, in_folderpath, out_folderpath):
     df = pd.concat(map(pd.read_csv, filepaths)) 
 
     # Saves the dataframe in the out folder
-    df.to_csv(os.path.join(out_folderpath, "all_emissions.csv"))
+    df.to_csv(os.path.join(out_folderpath, "all_emissions.csv"), index=False)
 
     return df
 

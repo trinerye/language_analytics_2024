@@ -3,16 +3,16 @@
 
 ## About
 
-This project evaluates how much CO2 (measured as kilograms of CO₂-equivalent) the four assignments in this exam portfolio emit, tracking each task with ``code carbon``. The objective is to examine the environmental impact of each assignment and the portfolio as a whole.
+This project tracks the four assignments in this exam portfolio with ``Code Carbon``, evaluating how much CO2 (measured as kilograms of CO₂-equivalent) each assignment emits. The objective is to examine the environmental impact of each assignment and the portfolio as a whole.
 
 The ``src`` directory contains one script: 
 
-- **codecarbon.py:** Processes the csv files produce by code carbon and merges them into on large data frame. It then filters the data frame by project name and creates a new one for each of the four assignments, and from these creates a plot displaying CO2 emissions for each task in the assignment, as well as across all assignments.
+- **codecarbon.py:** Loads the emissions files and merges them into one large data frame. It then filters the data frame by project name and creates a new one for each of the four assignments. Based on these, it makes several plots displaying CO2 emissions for each task in the assignments and across all assignments.
 
 
 ### Data
 
-Each of the four portfolio assignments produce the csv files used for this project and places them in the emissions folder. For each assignment code carbon initializes an [EmissionsTracker][] object, which tracks each function placed in the main function, and returns the emissions files. *See the approach used in this portfolio down below.*
+Each of the four portfolio assignments produces the csv files used for this project and places them in the emissions folder. For each assignment Code Carbon initializes an [EmissionsTracker](https://mlco2.github.io/codecarbon/usage.html) object, which tracks each function in the main function and returns the emissions files. *See the approach used in this portfolio down below.*
 
 ```sh
 from codecarbon import EmissionsTracker
@@ -107,6 +107,13 @@ deactivate
 
 ## Results 
 
+In the ``out`` directory, you will find a copy of the processed csv file, a plot of all CO2 emissions across the assignments, and an individual plot of tasks for each assignment.
+
+![plot](out/linguistic_analysis.png)
+![plot](out/text_classification.png)
+![plot](out/query_expansion.png)
+![plot](out/emotion_analysis.png)
+![plot](out/all_assignments.png)
 
 ### Limitations and future improvments 
 
