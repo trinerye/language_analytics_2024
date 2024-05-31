@@ -2,6 +2,7 @@ codecarbon==2.4.2
 matplotlib==3.9.0
 numpy==1.26.4
 pandas==2.2.2
+setuptools==70.0.0
 tensorflow==2.16.1
 tf_keras==2.16.0
 tqdm==4.66.4

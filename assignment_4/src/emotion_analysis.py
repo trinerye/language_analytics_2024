@@ -97,7 +97,7 @@ def main():
                                output_file="emissions.csv",
                                output_dir=emissions_folderpath) 
 
-    # Tracks the initialization of the argument parser
+    # Tracks the initialization of the classifier
     tracker.start_task("setup_the_classifier")
     classifier = setup_classifier()
     tracker.stop_task()
@@ -107,7 +107,7 @@ def main():
     df = load_data(in_folderpath)
     tracker.stop_task()
 
-    # Tracks the function produces the text classification prediction and extracs the emotion labels from it
+    # Tracks the function produces the text classification predictions and extracs the emotion labels from it
     tracker.start_task("extract_emotion_labels")
     df = extract_emotion_labels(df, classifier, out_folderpath)
     tracker.stop_task()

@@ -3,7 +3,7 @@
 
 ## About
 
-This project uses the pre-trained ``Emotion English DistilRoBERTa-base`` classifier by ``j-hartmann``, which is available on ``Hugging Face``. It predicts emotion labels for each of the lines in the ``Game of Thrones Script`` dataset to see if the emotional profile changes through the series.
+This project uses the pre-trained ``Emotion English DistilRoBERTa-base`` classifier by ``j-hartmann``, which is available on ``Hugging Face``. It predicts emotion labels for each of the lines in the ``Game of Thrones Script`` dataset to see if the emotional profile changes through the series. *(See assignment description [here](https://github.com/CDS-AU-DK/cds-language/tree/main/assignments/assignment4))*
 
 The ``src`` directory contains two scripts: 
 
@@ -43,7 +43,13 @@ By setting ``top_k= 1, ``, the classifier only returns the top prediction, e.g.,
         |
         ├── out
         |   ├── emotions
+        |   |   ├── anger_distribution_across_seasons.jpg
+        |   |   └── ...
+        |   |
         |   ├── seasons
+        |   |   ├── season_1_emotion_distribution.jpg
+        |   |   └── ...
+        |   |
         |   ├── emotion_distribution.csv
         |   └── emotions_across_seasons.csv
         |
@@ -104,7 +110,7 @@ deactivate
 
 ## Results 
 
-In the ``out`` directory, you can find a filtered and unfiltered version of the Game of Thrones predictions together with the ``emotions`` and ``seasons`` folders that contain several plots showing the distribution of emotion labels for each season and the relative frequency of emotions across seasons.
+In the ``out`` directory, you can find a filtered and unfiltered version of the Game of Thrones predictions. It also holds the ``emotions`` and ``seasons`` folders, which contain the plots showing the distribution of emotion labels for each season and the relative frequency of emotions across seasons.
 
 | Season   | Anger | Disgust | Fear | Joy | Neutral | Sadness | Surprise |
 |----------|-------|---------|------|-----|---------|---------|----------|
@@ -117,9 +123,9 @@ In the ``out`` directory, you can find a filtered and unfiltered version of the 
 | Season 7 | 0.15  | 0.08    | 0.05 | 0.04| 0.52    | 0.04    | 0.11     |
 | Season 8 | 0.18  | 0.07    | 0.04 | 0.04| 0.50    | 0.06    | 0.12     |
 
-Based on the overview of the emotion distribution across seasons, Game of Thrones is not a very joyful series - as in - many lines in the script are not associated with the emotion label joy.
+Based on this overview of the emotion distribution across seasons, Game of Thrones is not a very joyful series - as in - many lines in the script are not associated with the emotion label joy.
 
-On the other hand, emotions such as anger and disgust score high across the dataset, with anger having the highest relative frequency of lines besides that of neutral emotions. Looking at anger specifically, it makes sense that season eight is the angriest, as this is where the final battle between good and evil occurs. It also makes sense that the relative frequency of lines that express surprise is primarily uniform across all seasons, as the show was known for its suspenseful cliffhangers and the kill-your-darlings concept. 
+On the other hand, emotions such as anger and disgust score high across the dataset, with anger having the highest relative frequency of lines besides that of neutral emotions. Looking at anger specifically, it makes sense that season eight is the angriest, as this is where the final battle between good and evil occurs. It also makes sense that the relative frequency of lines that express surprise is somewhat uniform across all seasons, as the show was known for its suspenseful cliffhangers and the kill-your-darlings concept. 
 
 Although all emotions are present within the dataset, it is no surprise that lines containing neutral emotion appear much more often than any other emotion, likely due to filler words, monotone language, or the lack of adjectives.
 
@@ -127,11 +133,14 @@ In conclusion, while the distribution of emotions across each season stays prett
 
 ### Limitations and future improvments 
 
-- Since we do not know why the lines are associated with specific emotions, as the classifier black-boxes this, one could perform a linguistic analysis on the dataset, counting the frequency of adjectives which carry many emotions versus more neutral adverbs to uncover this.  
+- Since we do not know why the lines are associated with specific emotions, as the classifier black-boxes this, we could perform a linguistic analysis on the dataset, counting the frequency of adjectives which carry many emotions versus more neutral adverbs to uncover this.  
 
 
+## Code Carbon
 
+Please ignore the code related to ``Code Carbon``, as it is part of another assignment and, therefore, unnecessary to reproduce this project. 
 
+*For more information about this project's environmental impact, see [assignment_5](../assignment_5/readme.md).*
 
 
 
