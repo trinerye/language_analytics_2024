@@ -2,7 +2,7 @@
 
 ## About
 
-This project uses ``spaCy`` to extract linguistic features from ``The Uppsala Student English Corpus (USE)`` to *calculate the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the total number of unique PER, LOC, and ORG entities for each text*. 
+This project uses ``spaCy`` to extract linguistic features from ``The Uppsala Student English Corpus (USE)`` to calculate the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the total number of unique PER, LOC, and ORG entities for each text. *(See assignment description [here](https://github.com/CDS-AU-DK/cds-language/tree/main/assignments/assignment1))*
 
 The ``src`` directory contains one script: 
 
@@ -100,21 +100,28 @@ This project supports the following command-line options to customize the script
 |--pipeline|-p       |Specifies the spaCy pipeline used for the linguistic analysis              |str  |TRUE    |
 |--encoding|-e       |Specifies which encoding to use to open the texts from the dataset|str  |TRUE    |
 
-Go to https://spacy.io/models to find the spaCy pipeline you want to work with and add it as a command-line argument when running the script. Remember to change the encoding accordingly to ensure the text is readable. 
+Go to https://spacy.io/models to find the spaCy pipeline you want to work with and add it as a command-line argument when running the script. Remember to change the encoding accordingly to ensure the text is readable. This project uses the ``latin-1 encoding``.
 
-*See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings). This project uses the ``latin-1 encoding``.*
+*See standard encodings for python [here](https://docs.python.org/3/library/codecs.html#standard-encodings).*
 
 ## Results 
 
 You can find a csv of the results from the linguistic analysis in the ``out`` directory, which contains the relative frequency of nouns, verbs, adjectives, and adverbs per 10,000 words and the total number of unique PER, LOC, and ORG entities.
 
-This type of analysis is useful for examining the use of language across different literary genres or periods or for determining how students' language progresses over time as they expand their vocabulary.
+In conclusion, this type of analysis can be useful for examining the use of language across different literary genres or periods or for determining how students' language progresses over time as they expand their vocabulary.
 
 ### Limitations and future improvements 
 
-- Without some form of visualization, the results may be difficult to understand. Hence, a histogram might be a better solution to improve readability. 
+- Without some form of visualization, the results may be difficult to understand. Hence, a histogram might be a better solution than a csv to improve readability. 
 
 - Also, the USE dataset contains a few inconsistencies (e.g., some students left the English program between semesters), which may affect future analyses. 
+
+
+## Code Carbon
+
+Please ignore the code related to ``Code Carbon``, as it is part of another assignment and, therefore, unnecessary to reproduce this project. 
+
+*For more information about this project's environmental impact, see [assignment_5](../assignment_5/readme.md).*
 
 
 ## References

@@ -32,13 +32,13 @@ def parser():
 def load_model(args):
 
     # Loads the en_core_web_md model from spacy
-    nlp = spacy.load(args.pipeline) # perhaps add argparse here
+    nlp = spacy.load(args.pipeline) 
     return nlp
 
 
 def open_and_clean_text(filepath, args):
 
-    # Opens and reads the text using a latin1 encoding which contains 191 characters from the latin script, including Finnish letters    
+    # Opens and reads the text using a latin1 encoding which contains 191 characters from the latin script, including Swedish letters    
     with open(filepath, encoding=args.encoding) as f:
         text = f.read()
 
@@ -52,7 +52,7 @@ def extract_text_entities(doc):
     # Iterates over each token in doc, appending the pos tags to a list
     annotations = [(token.pos_) for token in doc if not token.is_punct and not token.is_space]
 
-    # Converting the annotations list into a data frame
+    # Converts the annotations list into a data frame
     df = pd.DataFrame(annotations, columns=["pos"])
 
     # Returns a dataframe with only the nouns, verbs, adj, and adv if they are present in the pos column, making the boolean vector true.
