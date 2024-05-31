@@ -25,9 +25,6 @@ This project uses the English [en_core_web_md](https://spacy.io/models/en) pipel
 ```
 └── assignment_1
         |
-        ├── emissions
-        |   ├── emissions_base_id
-        |   └── emissions.csv
         |
         ├── in
         │   └── USEcorpus 
@@ -50,7 +47,6 @@ This project uses the English [en_core_web_md](https://spacy.io/models/en) pipel
         ├── run.sh
         └── setup.sh
 ```
-*You may notice that the script also produces a csv file that contains the CO2 emissions for each function. Please ignore this folder and all related code, as it is part of another assignment and, therefore, unnecessary to reproduce this project.*
 
 ## Usage
 
