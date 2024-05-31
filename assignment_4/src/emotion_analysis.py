@@ -98,7 +98,7 @@ def main():
                                output_dir=emissions_folderpath) 
 
     # Tracks the initialization of the argument parser
-    tracker.start_task("initialize_argparse")
+    tracker.start_task("setup_the_classifier")
     classifier = setup_classifier()
     tracker.stop_task()
 
