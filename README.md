@@ -1,7 +1,5 @@
 # Language_analytics_2024
 
-### Assignment 1: 
+This repo contains all the code for my portfolio assignments for the course *Language Analytics* (F24).
 
-### Assignment 2: 
-
-### Assignment 3: 
+To view the results of each assignment, please navigate to the corresponding assignment folder, where you’ll find the relevant analyses, visualizations, and documentation. Each folder contains the code and materials specific to that project.
